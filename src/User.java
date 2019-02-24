@@ -1,26 +1,25 @@
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.PriorityQueue;
 
 public class User {
 	private int id;
-	private Queue<Process> processQueue;
+	private PriorityQueue<Process> processQueue;
 
 	public User(int id) {
 		this.id = id;
-		processQueue = new LinkedList<>();
+		processQueue = new PriorityQueue<>();
 	}
 
 	public int getID() {
 		return id;
 	}
 
-	public Queue<Process> getQueue() {
+	public PriorityQueue<Process> getPriorityQueue() {
 		return processQueue;
 	}
 
 	public void pushProcess(Process process) {
 		try {
-			getQueue().add(process);
+			getPriorityQueue().add(process);
 		} catch (Exception e) {
 
 		}
