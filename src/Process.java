@@ -21,10 +21,29 @@ public abstract class Process {
 	public int getPriority() {
 		return priority;
 	}
-	
 	public int getMemory() {
 		return memory;
 	}
-	
+	public String getState() {
+		return state;
+	}
+	public int getMemoryStart() {
+		return memoryStart;
+	}
+	public void setMemory(int memory) {
+		this.memory=memory;
+	}
+	public void setState(String state) {
+		this.state=state;
+	}
+	public void setMemoryStart(int memoryStart) {
+		this.memoryStart=memoryStart;
+	}
+	public void setID(int id) {
+		this.id=id;
+	}
+	public void setPriority(int priority) {
+		this.priority=priority;
+	}
 	
 }
