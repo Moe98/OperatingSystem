@@ -2,6 +2,7 @@
 public class File {
 
 	String Name;
+	String path;
 	String Text = "";
 	private final int Size = 1;
 
@@ -12,9 +13,11 @@ public class File {
 	public void Rename(String newName) {
 		Name = newName;
 	}
+
 	public String getName() {
 		return Name;
 	}
+
 	public void openFile() {
 		// TODO GUI HANDELING
 	}
@@ -34,11 +37,9 @@ public class File {
 	public void enterPressed() {
 		Text += "\n";
 	}
-	
+
 	public int getSize() {
 		return this.Size;
 	}
-	
-	
-}
 
+}

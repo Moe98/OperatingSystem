@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class Folder {
 
 	String Name;
+	String path;
 	private int Size;
 	ArrayList<Folder> arrayFolder;
 	ArrayList<File> arrayFile;
@@ -12,11 +13,13 @@ public class Folder {
 		usedMemory(5);
 
 		this.Name = Name;
-		Main.folders.add(this);
+
 	}
+
 	public String getName() {
 		return Name;
 	}
+
 	public void Rename(String newName) {
 		Name = newName;
 	}
@@ -31,7 +34,9 @@ public class Folder {
 			return "There is folder or file existing with the same name";
 
 		usedMemory(this.Size + 5);
-		arrayFolder.add(new Folder(name));
+		Folder newFolder = new Folder(name);
+		newFolder.path = this.path + "/" + name;
+		arrayFolder.add(newFolder);
 
 		return "Created successfully";
 
@@ -43,7 +48,9 @@ public class Folder {
 			return "There is folder or file existing with the same name";
 
 		usedMemory(this.Size + 1);
-		arrayFile.add(new File(name));
+		File newFile = new File(name);
+		newFile.path = this.path + "/" + name;
+		arrayFile.add(newFile);
 
 		return "Created successfully";
 	}
@@ -145,14 +152,34 @@ public class Folder {
 		return true;
 
 	}
+
 	public String listAllFilesAndFolders() {
-		StringBuilder ans=new StringBuilder();
-		for(File file:arrayFile)
-			ans.append(file.getName()+"\n");
-		for(Folder folder:arrayFolder)
-			ans.append(folder.getName()+"\n");
+		StringBuilder ans = new StringBuilder();
+		for (File file : arrayFile)
+			ans.append(file.getName() + "\n");
+		for (Folder folder : arrayFolder)
+			ans.append(folder.getName() + "\n");
 		return ans.toString();
 	}
 
-}
+	public static Folder getFolder(String path) {
+		String[] x = path.split("/");
+		if (!x[0].equals("desktop"))
+			return null;
+		Folder curr = Main.desktop;
+		for (int i = 1; i < x.length; i++) {
+			boolean found = false;
+			for (Folder inside : curr.arrayFolder)
+				if (inside.getName().equals(x[i])) {
+					curr = inside;
+					found = true;
+					break;
+				}
+			if (!found)
+				return null;
 
+		}
+		return curr;
+
+	}
+}
