@@ -1,5 +1,5 @@
 
-public abstract class Process implements Comparable {
+public abstract class Process implements Comparable<Process> {
 	private int id;
 	private int priority;
 	private int memory;       //size of memory process owns
@@ -45,10 +45,8 @@ public abstract class Process implements Comparable {
 	public void setPriority(int priority) {
 		this.priority=priority;
 	}
-	public boolean compareTo(Process p){
-		if(this.priority>p.priority){
-			return true;
-		}
-		return false;
+	public int compareTo(Process p){
+		return this.priority-priority;
+		// the process with the least priority goes first 
 	}
 }

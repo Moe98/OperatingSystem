@@ -12,8 +12,11 @@ public class Folder {
 		usedMemory(5);
 
 		this.Name = Name;
+		Main.folders.add(this);
 	}
-
+	public String getName() {
+		return Name;
+	}
 	public void Rename(String newName) {
 		Name = newName;
 	}
@@ -141,6 +144,14 @@ public class Folder {
 
 		return true;
 
+	}
+	public String listAllFilesAndFolders() {
+		StringBuilder ans=new StringBuilder();
+		for(File file:arrayFile)
+			ans.append(file.getName()+"\n");
+		for(Folder folder:arrayFolder)
+			ans.append(folder.getName()+"\n");
+		return ans.toString();
 	}
 
 }
