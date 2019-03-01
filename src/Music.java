@@ -5,12 +5,13 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
-public class Music {
+public class Music extends userProcess {
 	private String path;
 	private long clipTime;
 	private Clip clip;
 
 	public Music(String path) {
+		super(1, 1, 3, "new", 0); //just till we know how we're going to handle priority and scheduling
 		this.path = path;
 	}
 
