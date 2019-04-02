@@ -30,9 +30,9 @@ public abstract class Process implements Comparable<Process> {
 		return state;
 	}
 
-	public int getMemoryStart() {
-		return memoryStart;
-	}
+//	public int getMemoryStart() {
+//		return memoryStart;
+//	}
 
 	public void setMemory(int memory) {
 		this.memory = memory;
@@ -42,9 +42,9 @@ public abstract class Process implements Comparable<Process> {
 		this.state = state;
 	}
 
-	public void setMemoryStart(int memoryStart) {
-		this.memoryStart = memoryStart;
-	}
+//	public void setMemoryStart(int memoryStart) {
+//		this.memoryStart = memoryStart;
+//	}
 
 	public void setID(int id) {
 		this.id = id;

@@ -1,6 +1,7 @@
 
 public class Terminal {
 	private Folder currentDirectory;
+	private Music music;
 
 	public Terminal() {
 		// not sure how to know the name of the user
@@ -9,9 +10,14 @@ public class Terminal {
 	}
 
 	public boolean changeDirectory(Folder folder) { // cd
+		// System.out.println(folder.toString());
 		if (folder == null)
 			return false;
+		// System.out.println("This is changeDirectory");
+		// System.out.println(folder.Name + " " + folder.path);
 		currentDirectory = folder;
+		// System.out.println(currentDirectory.Name + " " + currentDirectory.path);
+		// System.out.println("====================");
 		return true;
 	}
 
@@ -33,7 +39,7 @@ public class Terminal {
 	public boolean createNewFile(String fileName) {
 		if (!currentDirectory.checkForNameUniqness(fileName))
 			return false;
-		currentDirectory.createFolderInside(fileName);
+		currentDirectory.createFileInside(fileName);
 		return true;
 	}
 
@@ -43,6 +49,7 @@ public class Terminal {
 			return true;
 		}
 		if (cmd.startsWith("cd")) {
+			System.out.println(cmd.split(" ")[1]);
 			Folder to = Folder.getFolder(cmd.split(" ")[1]);
 			changeDirectory(to);
 			return to != null;
@@ -56,9 +63,42 @@ public class Terminal {
 			createNewFolder(cmd.split(" ")[1]);
 			return true;
 		}
+		if (cmd.startsWith("play")) {
+			music = new Music(cmd.split(" ")[1]);
+			music.play();
+		}
+		if (cmd.startsWith("pause")) {
+			music.pause();
+			return true;
+		}
 		if (cmd.startsWith("touch")) { // create fileName
 			createNewFile(cmd.split(" ")[1]);
 			return true;
+		}
+		if(cmd.startsWith("deleteFolder")) {
+			String path=cmd.split(" ")[1];
+			System.out.println(path);
+			if(path.equals("desktop")) {
+				System.out.println("You cannot delete desktop");
+				return false;
+			}
+			else {
+				int last=path.lastIndexOf("/");
+				String parentPath=path.substring(0, last);
+				Folder parent=Folder.getFolder(parentPath);
+				parent.deleteFolderInside(path.substring(last+1));
+				changeDirectory(Main.desktop);
+				return true;
+			}
+		}
+		if(cmd.startsWith("deleteFile")) {
+			String path=cmd.split(" ")[1];
+			int last=path.lastIndexOf("/");
+			String parentPath=path.substring(0, last);
+			Folder parent=Folder.getFolder(parentPath);
+			parent.deleteFileInside(path.substring(last+1));
+			return true;
+			
 		}
 		return false;
 	}

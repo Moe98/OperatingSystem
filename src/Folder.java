@@ -1,10 +1,11 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Folder {
 
 	String Name;
 	String path;
-	private int Size;
+	private int size;
 	ArrayList<Folder> arrayFolder;
 	ArrayList<File> arrayFile;
 
@@ -13,6 +14,8 @@ public class Folder {
 		usedMemory(5);
 
 		this.Name = Name;
+		arrayFile = new ArrayList();
+		arrayFolder = new ArrayList();
 
 	}
 
@@ -28,34 +31,45 @@ public class Folder {
 		// TODO GUI HANDELING
 	}
 
-	public String createFolderInside(String name) {
+	public void createFolderInside(String name) {
 
-		if (!checkForNameUniqness(name))
-			return "There is folder or file existing with the same name";
-
-		usedMemory(this.Size + 5);
+		if (!checkForNameUniqness(name)) {
+			System.out.println("There is folder or file existing with the same name");
+			return;
+		}
+		System.out.println("here");
+		usedMemory(this.size + 5);
 		Folder newFolder = new Folder(name);
+		// System.out.println(newFolder.Name);
 		newFolder.path = this.path + "/" + name;
+		// System.out.println(newFolder.path);
 		arrayFolder.add(newFolder);
-
-		return "Created successfully";
+		for (Folder f : arrayFolder)
+			System.out.println(f.Name + " " + f.path + " " + f.size);
+		System.out.println("Created successfully");
 
 	}
 
-	public String createFileInside(String name) {
+	public void createFileInside(String name) {
 
-		if (!checkForNameUniqness(name))
-			return "There is folder or file existing with the same name";
-
-		usedMemory(this.Size + 1);
+		if (!checkForNameUniqness(name)) {
+			System.out.println("There is folder or file existing with the same name");
+			return;
+		}
 		File newFile = new File(name);
 		newFile.path = this.path + "/" + name;
+		newFile.setPath(newFile.path);
+		boolean can = Main.disk.assignFile(newFile);
+		if (!can) {
+			System.out.println("Not enough disk space!");
+			return;
+		}
+		usedMemory(this.size + 1);
 		arrayFile.add(newFile);
-
-		return "Created successfully";
+		System.out.println("Created successfully");
 	}
 
-	public String deleteFolderInside(String name) {
+	public void deleteFolderInside(String name) {
 		boolean found = false;
 
 		for (int i = 0; i < arrayFolder.size(); i++) {
@@ -69,28 +83,29 @@ public class Folder {
 		}
 
 		if (found)
-			return "Deleted successfully";
+			System.out.println("Deleted successfully");
 		else
-			return "Deletion failed";
+			System.out.println("Deletion failed");
 
 	}
 
-	public String deleteFileInside(String name) {
+	public void deleteFileInside(String name) {
 		boolean found = false;
 
 		for (int i = 0; i < arrayFile.size(); i++) {
 			File curFile = arrayFile.get(i);
 			if (curFile.Name.equals(name)) {
 				found = true;
+				Main.disk.removeProcess(curFile);
 				arrayFile.remove(i);
 				break;
 			}
 		}
 
 		if (found)
-			return "Deleted successfully";
+			System.out.println("Deleted successfully");
 		else
-			return "Deletion failed";
+			System.out.println("Deletion failed");
 
 	}
 
@@ -115,11 +130,11 @@ public class Folder {
 	}
 
 	private void usedMemory(int size) {
-		this.Size = size;
+		this.size = size;
 	}
 
 	public int getSize() {
-		return this.Size;
+		return this.size;
 	}
 
 	public void updateSize() {
@@ -164,17 +179,23 @@ public class Folder {
 
 	public static Folder getFolder(String path) {
 		String[] x = path.split("/");
+		// System.out.println("This is the x: " + Arrays.toString(x));
 		if (!x[0].equals("desktop"))
 			return null;
 		Folder curr = Main.desktop;
+		// System.out.println("in here");
+		// System.out.println(path);
 		for (int i = 1; i < x.length; i++) {
 			boolean found = false;
-			for (Folder inside : curr.arrayFolder)
+			// System.out.println("in loop");
+			for (Folder inside : curr.arrayFolder) {
+				System.out.println(inside.Name);
 				if (inside.getName().equals(x[i])) {
 					curr = inside;
 					found = true;
 					break;
 				}
+			}
 			if (!found)
 				return null;
 

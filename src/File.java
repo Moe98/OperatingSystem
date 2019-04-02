@@ -42,4 +42,12 @@ public class File {
 		return this.Size;
 	}
 
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
 }
