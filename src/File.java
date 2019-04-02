@@ -3,7 +3,7 @@ public class File {
 
 	String Name;
 	String path;
-	String Text = "";
+	private String Text = "";
 	private final int Size = 1;
 
 	File(String Name) {
@@ -34,6 +34,14 @@ public class File {
 		Text = Text.substring(0, start) + "" + Text.substring(end + 1);
 	}
 
+	public void emptyText() {
+		Text = "";
+	}
+
+	public void setText(String text) {
+		Text = text;
+	}
+
 	public void enterPressed() {
 		Text += "\n";
 	}
@@ -50,4 +58,7 @@ public class File {
 		return path;
 	}
 
+	public String getText() {
+		return Text;
+	}
 }

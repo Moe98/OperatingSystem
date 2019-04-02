@@ -9,7 +9,7 @@ import javax.sound.sampled.Clip;
 public class Music {
 	// AudioInputStream ais = AudioSystem.getAudioInputStream(in);
 	private String path;
-	private long clipTime;
+//	private long clipTime;
 	private Clip clip;
 	private File f;
 
@@ -38,8 +38,9 @@ public class Music {
 		}
 	}
 
-	public void pause() {
-		clipTime = clip.getLongFramePosition();
+	public void stop() {
+//		clipTime = clip.getLongFramePosition();
+//		Main.memory.removeProcess(process);
 		clip.close();
 	}
 

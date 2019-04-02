@@ -89,6 +89,15 @@ public class Folder {
 
 	}
 
+	public void deleteAll() {
+		for (Folder folder : arrayFolder)
+			folder.deleteAll();
+		arrayFolder.clear();
+		for (File file : arrayFile)
+			Main.disk.removeProcess(file);
+		arrayFile.clear();
+	}
+
 	public void deleteFileInside(String name) {
 		boolean found = false;
 

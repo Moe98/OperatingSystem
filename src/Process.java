@@ -5,13 +5,14 @@ public abstract class Process implements Comparable<Process> {
 	private int memory; // size of memory process owns
 	private String state;
 	private int memoryStart; // first index in the array representing memory
-
-	public Process(int id, int priority, int memory, String state, int memoryStart) {
+	private String pcb;
+	public Process(int id, int priority, int memory,String pcb) {
 		this.id = id;
 		this.priority = priority;
 		this.memory = memory;
-		this.state = state;
-		this.memoryStart = memoryStart;
+		this.state= "New";
+		
+		this.pcb=pcb;
 	}
 
 	public int getID() {
@@ -53,7 +54,12 @@ public abstract class Process implements Comparable<Process> {
 	public void setPriority(int priority) {
 		this.priority = priority;
 	}
-
+	public String getPcb() {
+		return pcb;
+	}
+	public void setPcb(String pcb) {
+		this.pcb=pcb;
+	}
 	public int compareTo(Process p) {
 		return this.priority - priority;
 		// the process with the least priority goes first

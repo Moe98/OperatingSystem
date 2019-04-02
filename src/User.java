@@ -4,12 +4,14 @@ public class User {
 	private int id;
 	private PriorityQueue<Process> processQueue;
 
-	public User(int id) {
-		this.id = id;
+	public User() {
+		// this.id = id;
+		this.id = 0;
 		processQueue = new PriorityQueue<>();
 	}
 
 	public int getID() {
+		upProcess();
 		return id;
 	}
 
@@ -20,8 +22,13 @@ public class User {
 	public void pushProcess(Process process) {
 		try {
 			getPriorityQueue().add(process);
+			process.setState("Ready");
 		} catch (Exception e) {
 
 		}
+	}
+
+	public void upProcess() {
+		this.id++;
 	}
 }

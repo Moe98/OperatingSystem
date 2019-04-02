@@ -43,6 +43,22 @@ public class Terminal {
 		return true;
 	}
 
+	public boolean editFile(String fileName, String text) {
+		for (int i = 0; i < currentDirectory.arrayFile.size(); i++)
+			if (currentDirectory.arrayFile.get(i).Name.equals(fileName)) {
+				currentDirectory.arrayFile.get(i).setText(text);
+				return true;
+			}
+		return false;
+	}
+
+	public String readFile(String fileName) {
+		for (int i = 0; i < currentDirectory.arrayFile.size(); i++)
+			if (currentDirectory.arrayFile.get(i).Name.equals(fileName))
+				return currentDirectory.arrayFile.get(i).getText();
+		return "File Not Found!";
+	}
+
 	public boolean executeCommand(String cmd) {
 		if (cmd.startsWith("ls")) {
 			listAllFiles();
@@ -66,39 +82,50 @@ public class Terminal {
 		if (cmd.startsWith("play")) {
 			music = new Music(cmd.split(" ")[1]);
 			music.play();
+			return true;
 		}
-		if (cmd.startsWith("pause")) {
-			music.pause();
+		if (cmd.startsWith("stop")) {
+			music.stop();
 			return true;
 		}
 		if (cmd.startsWith("touch")) { // create fileName
 			createNewFile(cmd.split(" ")[1]);
 			return true;
 		}
-		if(cmd.startsWith("deleteFolder")) {
-			String path=cmd.split(" ")[1];
+		if (cmd.startsWith("deleteFolder")) {
+			String path = cmd.split(" ")[1];
 			System.out.println(path);
-			if(path.equals("desktop")) {
+			if (path.equals("desktop")) {
 				System.out.println("You cannot delete desktop");
 				return false;
-			}
-			else {
-				int last=path.lastIndexOf("/");
-				String parentPath=path.substring(0, last);
-				Folder parent=Folder.getFolder(parentPath);
-				parent.deleteFolderInside(path.substring(last+1));
-				changeDirectory(Main.desktop);
+			} else {
+				Folder to = Folder.getFolder(cmd.split(" ")[1]);
+				to.deleteAll();
 				return true;
 			}
 		}
-		if(cmd.startsWith("deleteFile")) {
-			String path=cmd.split(" ")[1];
-			int last=path.lastIndexOf("/");
-			String parentPath=path.substring(0, last);
-			Folder parent=Folder.getFolder(parentPath);
-			parent.deleteFileInside(path.substring(last+1));
+		if (cmd.startsWith("deleteFile")) {
+			String path = cmd.split(" ")[1];
+			int last = path.lastIndexOf("/");
+			String parentPath = path.substring(0, last);
+			Folder parent = Folder.getFolder(parentPath);
+			parent.deleteFileInside(path.substring(last + 1));
 			return true;
-			
+
+		}
+		if (cmd.startsWith("openFile")) {
+			String fileName = cmd.split(" ")[1];
+			// System.out.println(fileName);
+			System.out.println(readFile(fileName));
+			return true;
+		}
+		if (cmd.startsWith("editFile")) {
+			String fileName = cmd.split(" ")[1];
+			int prefix = 2 + cmd.split(" ")[0].length() + cmd.split(" ")[1].length();
+			String text = cmd.substring(prefix);
+			editFile(fileName, text);
+			System.out.println(readFile(fileName));
+			return true;
 		}
 		return false;
 	}

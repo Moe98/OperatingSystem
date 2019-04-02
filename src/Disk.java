@@ -6,7 +6,7 @@ public class Disk {
 	final static String FREE = "free";
 
 	Disk() {
-		size = 5;
+		size = 16348;
 		memory = new String[size];
 		Arrays.fill(memory, FREE);
 	}
