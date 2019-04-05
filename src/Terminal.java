@@ -1,8 +1,10 @@
+package application;
 
 public class Terminal {
 	private Folder currentDirectory;
 	private Music music;
-
+    
+	
 	public Terminal() {
 		// not sure how to know the name of the user
 		System.out.println("Welcome User");
@@ -22,10 +24,12 @@ public class Terminal {
 	}
 
 	public void printCurrentDirectory() { // pwd
+		Main.cmdTextArea.appendText(currentDirectory.getName() + "\n");
 		System.out.println(currentDirectory.getName());
 	}
 
 	public void listAllFiles() { // ls
+		Main.cmdTextArea.appendText(currentDirectory.listAllFilesAndFolders() + "\n");
 		System.out.println(currentDirectory.listAllFilesAndFolders());
 	}
 
@@ -94,8 +98,10 @@ public class Terminal {
 		}
 		if (cmd.startsWith("deleteFolder")) {
 			String path = cmd.split(" ")[1];
+			Main.cmdTextArea.appendText(path + "\n");
 			System.out.println(path);
 			if (path.equals("desktop")) {
+				Main.cmdTextArea.appendText("You cannot delete desktop" + "\n");
 				System.out.println("You cannot delete desktop");
 				return false;
 			} else {
@@ -116,6 +122,7 @@ public class Terminal {
 		if (cmd.startsWith("openFile")) {
 			String fileName = cmd.split(" ")[1];
 			// System.out.println(fileName);
+			Main.cmdTextArea.appendText(readFile(fileName) + "\n");
 			System.out.println(readFile(fileName));
 			return true;
 		}
@@ -124,6 +131,7 @@ public class Terminal {
 			int prefix = 2 + cmd.split(" ")[0].length() + cmd.split(" ")[1].length();
 			String text = cmd.substring(prefix);
 			editFile(fileName, text);
+			Main.cmdTextArea.appendText(readFile(fileName) + "\n");
 			System.out.println(readFile(fileName));
 			return true;
 		}
