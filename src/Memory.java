@@ -6,7 +6,7 @@ public class Memory {
 	final static int FREE = -1;
 
 	Memory() {
-		size = 20;
+		size = 2048;
 		memory = new int[size];
 		Arrays.fill(memory, FREE);
 	}

@@ -180,7 +180,7 @@ public class Folder {
 	public String listAllFilesAndFolders() {
 		StringBuilder ans = new StringBuilder();
 		for (File file : arrayFile)
-			ans.append(file.getName() + "\n");
+			ans.append( file.getName() + "\n");
 		for (Folder folder : arrayFolder)
 			ans.append(folder.getName() + "\n");
 		return ans.toString();

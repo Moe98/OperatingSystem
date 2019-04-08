@@ -1,4 +1,4 @@
-package application;
+//package application;
 
 import java.util.Scanner;
 import java.util.Stack;
@@ -58,7 +58,7 @@ public class Main extends Application {
 				if (ke.getCode().equals(KeyCode.ENTER)) {
 					String[] arr = cmdTextArea.getText().split("\n");
 
-					cmdTextArea.appendText("\n");
+				//	cmdTextArea.appendText("\n");
 					String cmd = arr[arr.length - 1];
 
 					if(cmd.equals("hacker mode")) {
