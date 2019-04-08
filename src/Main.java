@@ -46,20 +46,20 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws IOException {
 		user = new User();
 		schedulingAlgorithm(2500);
-		// memory = new Memory();
+		memory = new Memory();
 		disk = new Disk();
 		desktop = new Folder("desktop");
 		desktop.path = "desktop";
 		terminal = new Terminal();
-		desktop.arrayFolder.add(new Folder("joe"));
-		desktop.arrayFolder.add(new Folder("moe"));
-		desktop.arrayFolder.add(new Folder("zizo"));
-		desktop.arrayFolder.get(0).arrayFolder.add(new Folder("mini moe"));
-		desktop.arrayFolder.get(0).arrayFolder.get(0).arrayFolder.add((new Folder("small mo")));
-		desktop.arrayFile.add(new File("bye"));
-		desktop.arrayFile.get(0).addText("Hey dude");
-		desktop.arrayFolder.get(0).arrayFile.add(new File("HELLO THERE"));
-		desktop.arrayFolder.get(0).arrayFolder.get(0).arrayFile.add(new File("HELLO MAN"));
+		terminal.getCurrentDirectory().arrayFolder.add(new Folder("joe"));
+		terminal.getCurrentDirectory().arrayFolder.add(new Folder("moe"));
+		terminal.getCurrentDirectory().arrayFolder.add(new Folder("zizo"));
+		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.add(new Folder("mini moe"));
+		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFolder.add((new Folder("small mo")));
+		terminal.getCurrentDirectory().arrayFile.add(new File("bye"));
+		terminal.getCurrentDirectory().arrayFile.get(0).addText("Hey dude");
+		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFile.add(new File("HELLO THERE"));
+		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFile.add(new File("HELLO MAN"));
 		// ==================================================GUI===================================================================
 		window = new Stage();
 		window.setTitle("Command Prompt");
@@ -97,13 +97,12 @@ public class Main extends Application {
 				button.setOnMouseClicked(new EventHandler() {
 					@Override
 					public void handle(Event e) {
-						goBack(button.getText().substring(1));
 						openedFolder(button.getText().substring(1));
 					}
 				});
 				button.setStyle(
 						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
-				grid.add(button, folder, r);
+				grid.add(button, j, r);
 			}
 		int file = 0;
 		for (; r < 10 && file < desktop.getArrayFile().size(); r++)
@@ -117,7 +116,7 @@ public class Main extends Application {
 				});
 				button.setStyle(
 						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-text-fill: #ff0000;-fx-background-image: url('file.jpg');");
-				grid.add(button, file, r);
+				grid.add(button, j, r);
 			}
 		ScrollPane scrollPane = new ScrollPane(grid);
 
@@ -153,9 +152,11 @@ public class Main extends Application {
 					String firstPart = cmd.split(" ")[0];
 					// System.out.println(firstPart);
 					Process process = null;
+					// System.out.println("here" + cmd);
 					if (!cmd.equals("clear"))
 						switch (firstPart) {
 						case "ls":
+							// System.out.println("in ls");
 							process = new userProcess(user.getID(), 3, 15, cmd);
 							break;
 						case "cd":
@@ -196,6 +197,7 @@ public class Main extends Application {
 							break;
 						}
 					if (process != null) {
+						System.out.println("pushed process");
 						user.pushProcess(process);
 
 					}
@@ -217,6 +219,7 @@ public class Main extends Application {
 					System.out.print("");
 					try {
 						if (!user.getPriorityQueue().isEmpty()) {
+							System.out.println("in thread");
 							// System.out.println(Arrays.toString(memory.memory));
 							Process process = user.getPriorityQueue().peek();
 							boolean assigned = memory.assignProcess(process);
@@ -282,7 +285,7 @@ public class Main extends Application {
 				});
 				button.setStyle(
 						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
-				grid.add(button, folder, r);
+				grid.add(button, j, r);
 			}
 		int file = 0;
 		for (; r < 10 && file < terminal.getCurrentDirectory().getArrayFile().size(); r++)
@@ -296,7 +299,7 @@ public class Main extends Application {
 				});
 				button.setStyle(
 						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-text-fill: #ff0000;-fx-background-image: url('file.jpg');");
-				grid.add(button, file, r);
+				grid.add(button, j, r);
 			}
 	}
 
@@ -377,7 +380,7 @@ public class Main extends Application {
 				});
 				button.setStyle(
 						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
-				grid.add(button, folder, r);
+				grid.add(button, j, r);
 			}
 		int file = 0;
 		for (; r < 10 && file < terminal.getCurrentDirectory().getArrayFile().size(); r++)
@@ -391,7 +394,7 @@ public class Main extends Application {
 				});
 				button.setStyle(
 						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-text-fill: #ff0000;-fx-background-image: url('file.jpg');");
-				grid.add(button, file, r);
+				grid.add(button, j, r);
 			}
 	}
 
