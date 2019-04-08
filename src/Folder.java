@@ -18,6 +18,12 @@ public class Folder {
 		arrayFolder = new ArrayList();
 
 	}
+	public ArrayList<Folder> getArrayFolder(){
+		return arrayFolder;
+	}
+	public ArrayList<File> getArrayFile(){
+		return arrayFile;
+	}
 
 	public String getName() {
 		return Name;
@@ -180,7 +186,7 @@ public class Folder {
 	public String listAllFilesAndFolders() {
 		StringBuilder ans = new StringBuilder();
 		for (File file : arrayFile)
-			ans.append(file.getName() + "\n");
+			ans.append( file.getName() + "\n");
 		for (Folder folder : arrayFolder)
 			ans.append(folder.getName() + "\n");
 		return ans.toString();
