@@ -74,12 +74,24 @@ public class Main extends Application {
 		window.show();
 
 		grid = new GridPane();
+		grid.setPrefHeight(500);
+		grid.setPrefWidth(500);
 		grid.setPadding(new Insets(2));
 		grid.setHgap(50);
 		grid.setVgap(50);
 		int folder = 0;
-		int r = 0;
-		for (; r < 5 && folder < desktop.getArrayFolder().size(); r++) {
+		Button refreshButton = new Button();
+		refreshButton.setOnMouseClicked(new EventHandler() {
+			@Override
+			public void handle(Event e) {
+				refresh();
+			}
+		});
+		refreshButton.setStyle(
+				"-fx-background-size: 21px; -fx-background-repeat: no-repeat;-fx-background-image: url('refresh.jpg');");
+		grid.add(refreshButton, 3, 0);
+		int r = 1;
+		for (; r < 5 && folder < desktop.getArrayFolder().size(); r++)
 			for (int j = 0; folder < desktop.getArrayFolder().size() && j < 5; folder++, j++) {
 				Button button = new Button('\n' + desktop.getArrayFolder().get(folder).Name);
 				button.setOnMouseClicked(new EventHandler() {
@@ -93,12 +105,9 @@ public class Main extends Application {
 						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
 				grid.add(button, folder, r);
 			}
-		}
 		int file = 0;
-		for (; r < 10 && file < desktop.getArrayFile().size(); r++) {
-			System.out.println("in here");
+		for (; r < 10 && file < desktop.getArrayFile().size(); r++)
 			for (int j = 0; file < desktop.getArrayFile().size() && j < 5; file++, j++) {
-				System.out.println("in loop?");
 				Button button = new Button('\n' + desktop.getArrayFile().get(file).Name);
 				button.setOnMouseClicked(new EventHandler() {
 					@Override
@@ -110,7 +119,6 @@ public class Main extends Application {
 						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-text-fill: #ff0000;-fx-background-image: url('file.jpg');");
 				grid.add(button, file, r);
 			}
-		}
 		ScrollPane scrollPane = new ScrollPane(grid);
 
 		primaryStage.setScene(new Scene(scrollPane));
@@ -250,9 +258,19 @@ public class Main extends Application {
 		grid.setPadding(new Insets(2));
 		grid.setHgap(50);
 		grid.setVgap(50);
+		Button refreshButton = new Button();
+		refreshButton.setOnMouseClicked(new EventHandler() {
+			@Override
+			public void handle(Event e) {
+				refresh();
+			}
+		});
+		refreshButton.setStyle(
+				"-fx-background-size: 21px; -fx-background-repeat: no-repeat;-fx-background-image: url('refresh.jpg');");
+		grid.add(refreshButton, 3, 0);
 		int folder = 0;
-		int r = 0;
-		for (; r < 5 && folder < terminal.getCurrentDirectory().getArrayFolder().size(); r++) {
+		int r = 1;
+		for (; r < 5 && folder < terminal.getCurrentDirectory().getArrayFolder().size(); r++)
 			for (int j = 0; folder < terminal.getCurrentDirectory().getArrayFolder().size() && j < 5; folder++, j++) {
 				Button button = new Button('\n' + terminal.getCurrentDirectory().getArrayFolder().get(folder).Name);
 				button.setOnMouseClicked(new EventHandler() {
@@ -266,12 +284,9 @@ public class Main extends Application {
 						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
 				grid.add(button, folder, r);
 			}
-		}
 		int file = 0;
-		for (; r < 10 && file < terminal.getCurrentDirectory().getArrayFile().size(); r++) {
-			System.out.println("in here");
+		for (; r < 10 && file < terminal.getCurrentDirectory().getArrayFile().size(); r++)
 			for (int j = 0; file < terminal.getCurrentDirectory().getArrayFile().size() && j < 5; file++, j++) {
-				System.out.println("in loop?");
 				Button button = new Button('\n' + terminal.getCurrentDirectory().getArrayFile().get(file).Name);
 				button.setOnMouseClicked(new EventHandler() {
 					@Override
@@ -283,8 +298,6 @@ public class Main extends Application {
 						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-text-fill: #ff0000;-fx-background-image: url('file.jpg');");
 				grid.add(button, file, r);
 			}
-		}
-		System.out.println(terminal.getCurrentDirectory().Name);
 	}
 
 	public void openedFile(String path) {
@@ -333,6 +346,53 @@ public class Main extends Application {
 
 	public void goBack(String path) {
 		System.out.println("Path: " + path);
+	}
+
+	public void refresh() {
+		grid.getChildren().clear();
+		grid.setPadding(new Insets(2));
+		grid.setHgap(50);
+		grid.setVgap(50);
+		Button refreshButton = new Button();
+		refreshButton.setOnMouseClicked(new EventHandler() {
+			@Override
+			public void handle(Event e) {
+				refresh();
+			}
+		});
+		refreshButton.setStyle(
+				"-fx-background-size: 21px; -fx-background-repeat: no-repeat;-fx-background-image: url('refresh.jpg');");
+		grid.add(refreshButton, 3, 0);
+		int folder = 0;
+		int r = 1;
+		for (; r < 5 && folder < terminal.getCurrentDirectory().getArrayFolder().size(); r++)
+			for (int j = 0; folder < terminal.getCurrentDirectory().getArrayFolder().size() && j < 5; folder++, j++) {
+				Button button = new Button('\n' + terminal.getCurrentDirectory().getArrayFolder().get(folder).Name);
+				button.setOnMouseClicked(new EventHandler() {
+					@Override
+					public void handle(Event e) {
+						// goBack();
+						openedFolder(button.getText().substring(1));
+					}
+				});
+				button.setStyle(
+						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
+				grid.add(button, folder, r);
+			}
+		int file = 0;
+		for (; r < 10 && file < terminal.getCurrentDirectory().getArrayFile().size(); r++)
+			for (int j = 0; file < terminal.getCurrentDirectory().getArrayFile().size() && j < 5; file++, j++) {
+				Button button = new Button('\n' + terminal.getCurrentDirectory().getArrayFile().get(file).Name);
+				button.setOnMouseClicked(new EventHandler() {
+					@Override
+					public void handle(Event e) {
+						openedFile(button.getText().substring(1));
+					}
+				});
+				button.setStyle(
+						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-text-fill: #ff0000;-fx-background-image: url('file.jpg');");
+				grid.add(button, file, r);
+			}
 	}
 
 	public void render() {
