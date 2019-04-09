@@ -2,6 +2,7 @@
 //package application;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 
@@ -24,6 +25,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 
 public class Main extends Application {
 	// ==========GUI=================
@@ -74,11 +76,12 @@ public class Main extends Application {
 		window.show();
 
 		grid = new GridPane();
-		grid.setPrefHeight(500);
-		grid.setPrefWidth(500);
+		grid.setPrefHeight(800);
+		grid.setPrefWidth(1500);
 		grid.setPadding(new Insets(2));
 		grid.setHgap(50);
 		grid.setVgap(50);
+		grid.setStyle("-fx-background-size: 1500px; -fx-background-repeat:no-repeat; -fx-background-image: url('windows.jpg')");
 		int folder = 0;
 		Button refreshButton = new Button();
 		refreshButton.setOnMouseClicked(new EventHandler() {
@@ -86,10 +89,22 @@ public class Main extends Application {
 			public void handle(Event e) {
 				refresh();
 			}
-		});
+		});		
 		refreshButton.setStyle(
 				"-fx-background-size: 21px; -fx-background-repeat: no-repeat;-fx-background-image: url('refresh.jpg');");
-		grid.add(refreshButton, 3, 0);
+		
+		Button backButton = new Button();
+		backButton.setOnMouseClicked(new EventHandler() {
+			@Override
+			public void handle(Event e) {
+				back();
+			}
+		});		
+		backButton.setStyle(
+				"-fx-background-size: 21px; -fx-background-repeat: no-repeat;-fx-background-image: url('back.jpg');");
+		
+		
+	
 		int r = 1;
 		for (; r < 5 && folder < desktop.getArrayFolder().size(); r++)
 			for (int j = 0; folder < desktop.getArrayFolder().size() && j < 5; folder++, j++) {
@@ -101,7 +116,7 @@ public class Main extends Application {
 					}
 				});
 				button.setStyle(
-						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
+						"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
 				grid.add(button, j, r);
 			}
 		int file = 0;
@@ -115,12 +130,22 @@ public class Main extends Application {
 					}
 				});
 				button.setStyle(
-						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-text-fill: #ff0000;-fx-background-image: url('file.jpg');");
+						"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-text-fill: #ff0000;-fx-background-image: url('file.jpg');");
 				grid.add(button, j, r);
 			}
 		ScrollPane scrollPane = new ScrollPane(grid);
+		 BorderPane root2 = new BorderPane();
+		
+	
+		 HBox hbox1 = new HBox(backButton, refreshButton);
+		 hbox1.setStyle("-fx-border-style: solid inside;   -fx-background-color: #2f4f4f;\n" +  
+		 		"    -fx-spacing: 10;");
 
-		primaryStage.setScene(new Scene(scrollPane));
+         root2.setTop(hbox1); //Set header
+         root2.setCenter(scrollPane); //add your table
+     
+         Scene scene2 = new Scene(root2);
+		primaryStage.setScene(scene2);
 		primaryStage.show();
 		// ==================================================GUI===================================================================
 
@@ -261,16 +286,17 @@ public class Main extends Application {
 		grid.setPadding(new Insets(2));
 		grid.setHgap(50);
 		grid.setVgap(50);
-		Button refreshButton = new Button();
-		refreshButton.setOnMouseClicked(new EventHandler() {
-			@Override
-			public void handle(Event e) {
-				refresh();
-			}
-		});
-		refreshButton.setStyle(
-				"-fx-background-size: 21px; -fx-background-repeat: no-repeat;-fx-background-image: url('refresh.jpg');");
-		grid.add(refreshButton, 3, 0);
+		grid.setStyle("-fx-background-size: 1500px; -fx-background-repeat:no-repeat;");
+//		Button refreshButton = new Button();
+//		refreshButton.setOnMouseClicked(new EventHandler() {
+//			@Override
+//			public void handle(Event e) {
+//				refresh();
+//			}
+//		});
+//		refreshButton.setStyle(
+//				"-fx-background-color: transparent; -fx-background-size: 21px; -fx-background-repeat: no-repeat;-fx-background-image: url('refresh.jpg');");
+//		grid.add(refreshButton, 3, 0);
 		int folder = 0;
 		int r = 1;
 		for (; r < 5 && folder < terminal.getCurrentDirectory().getArrayFolder().size(); r++)
@@ -284,7 +310,7 @@ public class Main extends Application {
 					}
 				});
 				button.setStyle(
-						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
+						"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
 				grid.add(button, j, r);
 			}
 		int file = 0;
@@ -298,7 +324,7 @@ public class Main extends Application {
 					}
 				});
 				button.setStyle(
-						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-text-fill: #ff0000;-fx-background-image: url('file.jpg');");
+						"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-text-fill: #ff0000;-fx-background-image: url('file.jpg');");
 				grid.add(button, j, r);
 			}
 	}
@@ -397,7 +423,12 @@ public class Main extends Application {
 				grid.add(button, j, r);
 			}
 	}
+    
+	public void back() {
+	
+	}
 
+	
 	public void render() {
 		Folder currDir = terminal.getCurrentDirectory();
 		ArrayList<File> fileList = currDir.getArrayFile();
