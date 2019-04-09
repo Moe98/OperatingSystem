@@ -19,6 +19,14 @@ public class Folder {
 
 	}
 
+	public ArrayList<Folder> getArrayFolder() {
+		return arrayFolder;
+	}
+
+	public ArrayList<File> getArrayFile() {
+		return arrayFile;
+	}
+
 	public String getName() {
 		return Name;
 	}
@@ -37,7 +45,7 @@ public class Folder {
 			System.out.println("There is folder or file existing with the same name");
 			return;
 		}
-		System.out.println("here");
+		// System.out.println("here");
 		usedMemory(this.size + 5);
 		Folder newFolder = new Folder(name);
 		// System.out.println(newFolder.Name);
