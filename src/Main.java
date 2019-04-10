@@ -60,16 +60,16 @@ public class Main extends Application {
 		recycleBin = new Folder("RecycleBin");
 		desktop.path = "desktop";
 		terminal = new Terminal();
-//		terminal.getCurrentDirectory().arrayFolder.add(new Folder("joe"));
+		terminal.getCurrentDirectory().arrayFolder.add(new Folder("joe"));
 		terminal.getCurrentDirectory().arrayFolder.add(recycleBin);
-//		terminal.getCurrentDirectory().arrayFolder.add(new Folder("moe"));
-//		terminal.getCurrentDirectory().arrayFolder.add(new Folder("zizo"));
-//		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.add(new Folder("minimoe"));
-//		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFolder.add((new Folder("smallmo")));
-//		terminal.getCurrentDirectory().arrayFile.add(new File("bye"));
-//		terminal.getCurrentDirectory().arrayFile.get(0).addText("Hey dude");
-//		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFile.add(new File("HELLO THERE"));
-//		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFile.add(new File("HELLO MAN"));
+		terminal.getCurrentDirectory().arrayFolder.add(new Folder("moe"));
+		terminal.getCurrentDirectory().arrayFolder.add(new Folder("zizo"));
+		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.add(new Folder("minimoe"));
+		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFolder.add((new Folder("smallmo")));
+		terminal.getCurrentDirectory().arrayFile.add(new File("bye"));
+		terminal.getCurrentDirectory().arrayFile.get(0).addText("Hey dude");
+		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFile.add(new File("HELLO THERE"));
+		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFile.add(new File("HELLO MAN"));
 		// ==================================================GUI===================================================================
 		window = new Stage();
 		window.setTitle("Command Prompt");
@@ -123,7 +123,8 @@ public class Main extends Application {
 						openedFolder(button.getText().substring(1));
 					}
 				});
-				if (desktop.getArrayFolder().get(folder).Name.equals("RecycleBin")) {
+				if (terminal.getCurrentDirectory().getArrayFolder().get(folder).Name.equals("RecycleBin")
+						&& desktop.getArrayFolder().get(folder).Name.equals("RecycleBin")) {
 					if (!binFull)
 						button.setStyle(
 								"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('recyclebin.jpg');");
@@ -422,7 +423,8 @@ public class Main extends Application {
 						openedFolder(button.getText().substring(1));
 					}
 				});
-				if (terminal.getCurrentDirectory().getArrayFolder().get(folder).Name.equals("RecycleBin")) {
+				if (terminal.getCurrentDirectory().getArrayFolder().get(folder).Name.equals("RecycleBin")
+						&& desktop.getArrayFolder().get(folder).Name.equals("RecycleBin")) {
 					if (!binFull)
 						button.setStyle(
 								"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('recyclebin.jpg');");
