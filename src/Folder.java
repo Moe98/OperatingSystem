@@ -98,11 +98,17 @@ public class Folder {
 	}
 
 	public void deleteAll() {
-		for (Folder folder : arrayFolder)
+		if(Terminal.parentDeletion) {
+		  Main.recycleBin.arrayFolder.add(this);
+		  Terminal.parentDeletion=false;
+		}	
+		for (Folder folder : arrayFolder) {
 			folder.deleteAll();
+		}
 		arrayFolder.clear();
-		for (File file : arrayFile)
+		for (File file : arrayFile) {
 			Main.disk.removeProcess(file);
+			}
 		arrayFile.clear();
 	}
 
