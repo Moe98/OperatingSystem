@@ -409,6 +409,7 @@ public class Main extends Application {
 		grid.setPadding(new Insets(2));
 		grid.setHgap(50);
 		grid.setVgap(50);
+		grid.setStyle("-fx-background-size: 1500px; -fx-background-repeat:no-repeat;");
 		if (terminal.getCurrentDirectory().path != null && terminal.getCurrentDirectory().path.equals("desktop"))
 			grid.setStyle(
 					"-fx-background-size: 1500px; -fx-background-repeat:no-repeat; -fx-background-image: url('windows.jpg')");
