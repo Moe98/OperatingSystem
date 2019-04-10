@@ -412,12 +412,14 @@ public class Main extends Application {
 	}
 
 	public void back() {
-		if (pathStack.size() == 1) {
-			showAlert(Alert.AlertType.ERROR, window.getScene().getWindow(), "System Error!",
-					"CANNOT GO BEYOND DESKTOP!");
-			return;
+		if (pathStack.size() > 1) {
+//			terminal.executeCommand("cd desktop");
+//			showAlert(Alert.AlertType.ERROR, window.getScene().getWindow(), "System Error!",
+//					"CANNOT GO BEYOND DESKTOP!");
+//			return;
+			pathStack.pop();
 		}
-		pathStack.pop();
+//		else
 		terminal.executeCommand("cd " + pathStack.peek());
 		refresh();
 	}
