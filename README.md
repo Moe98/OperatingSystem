@@ -24,11 +24,11 @@ Supported commands through our CMD
 
 5- closeFile fileName > closes File with name fileName
 
-6- deleteFile fileName > deletes File with fileName
+6- deleteFile path/fileName > deletes File with fileName
 
 7- create folderName > creates a Folder with name folderName
 
-8- deleteFolder folderName > deletes Folder with folderName and all of its child folders and files
+8- deleteFolder path/folderName > deletes Folder with folderName and all of its child folders and files
 
 9- play musicPath > plays your favorite music at a given path i.e play music/music.wav would play music.wav
 
