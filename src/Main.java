@@ -132,8 +132,13 @@ public class Main extends Application {
 								"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('fullrecyclebin.jpg');");
 
 				} else {
-					button.setStyle(
-							"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
+					if (desktop.getArrayFolder().get(folder).getArrayFolder().size()
+							+ desktop.getArrayFolder().get(folder).getArrayFile().size() == 0)
+						button.setStyle(
+								"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
+					else
+						button.setStyle(
+								"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folder.jpg');");
 				}
 				grid.add(button, j, r);
 			}
@@ -302,51 +307,56 @@ public class Main extends Application {
 				System.out.println(pathStack.toString());
 				break;
 			}
-		grid.getChildren().clear();
-		grid.setPadding(new Insets(2));
-		grid.setHgap(50);
-		grid.setVgap(50);
-		grid.setStyle("-fx-background-size: 1500px; -fx-background-repeat:no-repeat;");
-		int folder = 0;
-		int r = 1;
-		for (; r < 5 && folder < terminal.getCurrentDirectory().getArrayFolder().size(); r++)
-			for (int j = 0; folder < terminal.getCurrentDirectory().getArrayFolder().size() && j < 5; folder++, j++) {
-				Button button = new Button('\n' + terminal.getCurrentDirectory().getArrayFolder().get(folder).Name);
-				button.setOnMouseClicked(new EventHandler() {
-					@Override
-					public void handle(Event e) {
-						// goBack();
-						openedFolder(button.getText().substring(1));
-					}
-				});
-				if (desktop.getArrayFolder().get(folder).Name.equals("RecycleBin")) {
-					if (!binFull)
-						button.setStyle(
-								"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('recyclebin.jpg');");
-					else
-						button.setStyle(
-								"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('fullrecyclebin.jpg');");
-				} else {
-					button.setStyle(
-							"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
-				}
-				grid.add(button, j, r);
-			}
-		int file = 0;
-		for (; r < 10 && file < terminal.getCurrentDirectory().getArrayFile().size(); r++)
-			for (int j = 0; file < terminal.getCurrentDirectory().getArrayFile().size() && j < 5; file++, j++) {
-				Button button = new Button('\n' + terminal.getCurrentDirectory().getArrayFile().get(file).Name);
-				button.setOnMouseClicked(new EventHandler() {
-					@Override
-					public void handle(Event e) {
-						openedFile(button.getText().substring(1));
-					}
-				});
-				button.setStyle(
-						"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-text-fill: #000000;-fx-background-image: url('file.jpg');");
-				grid.add(button, j, r);
-			}
-//		refresh();
+		refresh();
+//		grid.getChildren().clear();
+//		grid.setPadding(new Insets(2));
+//		grid.setHgap(50);
+//		grid.setVgap(50);
+//		grid.setStyle("-fx-background-size: 1500px; -fx-background-repeat:no-repeat;");
+//		int folder = 0;
+//		int r = 1;
+//		for (; r < 5 && folder < terminal.getCurrentDirectory().getArrayFolder().size(); r++)
+//			for (int j = 0; folder < terminal.getCurrentDirectory().getArrayFolder().size() && j < 5; folder++, j++) {
+//				Button button = new Button('\n' + terminal.getCurrentDirectory().getArrayFolder().get(folder).Name);
+//				button.setOnMouseClicked(new EventHandler() {
+//					@Override
+//					public void handle(Event e) {
+//						// goBack();
+//						openedFolder(button.getText().substring(1));
+//					}
+//				});
+//				if (desktop.getArrayFolder().get(folder).Name.equals("RecycleBin")) {
+//					if (!binFull)
+//						button.setStyle(
+//								"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('recyclebin.jpg');");
+//					else
+//						button.setStyle(
+//								"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('fullrecyclebin.jpg');");
+//				} else {
+//					if (desktop.getArrayFile().size() + desktop.getArrayFolder().size() == 0)
+//						button.setStyle(
+//								"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
+//					else
+//						button.setStyle(
+//								"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folder.jpg');");
+//				}
+//				grid.add(button, j, r);
+//			}
+//		int file = 0;
+//		for (; r < 10 && file < terminal.getCurrentDirectory().getArrayFile().size(); r++)
+//			for (int j = 0; file < terminal.getCurrentDirectory().getArrayFile().size() && j < 5; file++, j++) {
+//				Button button = new Button('\n' + terminal.getCurrentDirectory().getArrayFile().get(file).Name);
+//				button.setOnMouseClicked(new EventHandler() {
+//					@Override
+//					public void handle(Event e) {
+//						openedFile(button.getText().substring(1));
+//					}
+//				});
+//				button.setStyle(
+//						"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-text-fill: #000000;-fx-background-image: url('file.jpg');");
+//				grid.add(button, j, r);
+//			}
+////		refresh();
 	}
 
 	public void openedFile(String path) {
@@ -393,10 +403,6 @@ public class Main extends Application {
 		// add in memory!!!
 	}
 
-	public void goBack(String path) {
-		System.out.println("Path: " + path);
-	}
-
 	public void refresh() {
 		grid.getChildren().clear();
 		grid.setPadding(new Insets(2));
@@ -413,7 +419,6 @@ public class Main extends Application {
 				button.setOnMouseClicked(new EventHandler() {
 					@Override
 					public void handle(Event e) {
-						// goBack();
 						openedFolder(button.getText().substring(1));
 					}
 				});
@@ -426,8 +431,18 @@ public class Main extends Application {
 								"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('fullrecyclebin.jpg');");
 
 				} else {
-					button.setStyle(
-							"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
+//					System.out.println(
+//							terminal.getCurrentDirectory().getArrayFolder().get(folder).getArrayFolder().size());
+//					System.out
+//							.println(terminal.getCurrentDirectory().getArrayFolder().get(folder).getArrayFile().size());
+					if (terminal.getCurrentDirectory().getArrayFolder().get(folder).getArrayFolder().size()
+							+ terminal.getCurrentDirectory().getArrayFolder().get(folder).getArrayFile().size() == 0)
+
+						button.setStyle(
+								"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
+					else
+						button.setStyle(
+								"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folder.jpg');");
 				}
 				grid.add(button, j, r);
 			}
