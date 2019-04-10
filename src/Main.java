@@ -1,3 +1,4 @@
+
 //package application;
 
 import javafx.scene.control.Alert;
@@ -59,16 +60,16 @@ public class Main extends Application {
 		recycleBin = new Folder("RecycleBin");
 		desktop.path = "desktop";
 		terminal = new Terminal();
-		terminal.getCurrentDirectory().arrayFolder.add(new Folder("joe"));
+//		terminal.getCurrentDirectory().arrayFolder.add(new Folder("joe"));
 		terminal.getCurrentDirectory().arrayFolder.add(recycleBin);
-		terminal.getCurrentDirectory().arrayFolder.add(new Folder("moe"));
-		terminal.getCurrentDirectory().arrayFolder.add(new Folder("zizo"));
-		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.add(new Folder("minimoe"));
-		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFolder.add((new Folder("smallmo")));
-		terminal.getCurrentDirectory().arrayFile.add(new File("bye"));
-		terminal.getCurrentDirectory().arrayFile.get(0).addText("Hey dude");
-		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFile.add(new File("HELLO THERE"));
-		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFile.add(new File("HELLO MAN"));
+//		terminal.getCurrentDirectory().arrayFolder.add(new Folder("moe"));
+//		terminal.getCurrentDirectory().arrayFolder.add(new Folder("zizo"));
+//		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.add(new Folder("minimoe"));
+//		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFolder.add((new Folder("smallmo")));
+//		terminal.getCurrentDirectory().arrayFile.add(new File("bye"));
+//		terminal.getCurrentDirectory().arrayFile.get(0).addText("Hey dude");
+//		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFile.add(new File("HELLO THERE"));
+//		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFile.add(new File("HELLO MAN"));
 		// ==================================================GUI===================================================================
 		window = new Stage();
 		window.setTitle("Command Prompt");
@@ -114,7 +115,7 @@ public class Main extends Application {
 		int r = 1;
 		for (; r < 5 && folder < desktop.getArrayFolder().size(); r++)
 			for (int j = 0; folder < desktop.getArrayFolder().size() && j < 5; folder++, j++) {
-				
+
 				Button button = new Button('\n' + desktop.getArrayFolder().get(folder).Name);
 				button.setOnMouseClicked(new EventHandler() {
 					@Override
@@ -122,18 +123,17 @@ public class Main extends Application {
 						openedFolder(button.getText().substring(1));
 					}
 				});
-				if(desktop.getArrayFolder().get(folder).Name.equals("RecycleBin")) {
-					  if(!binFull)	
-							button.setStyle(
-									"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('recyclebin.jpg');");
-						  else
-							  button.setStyle(
-										"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('fullrecyclebin.jpg');");
-					
-				}
-				else {
-				button.setStyle(
-						"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
+				if (desktop.getArrayFolder().get(folder).Name.equals("RecycleBin")) {
+					if (!binFull)
+						button.setStyle(
+								"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('recyclebin.jpg');");
+					else
+						button.setStyle(
+								"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('fullrecyclebin.jpg');");
+
+				} else {
+					button.setStyle(
+							"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
 				}
 				grid.add(button, j, r);
 			}
@@ -214,11 +214,11 @@ public class Main extends Application {
 							break;
 						case "deleteFolder":
 							process = new userProcess(user.getID(), 4, 4, cmd);
-							binFull=true;
+							binFull = true;
 							break;
 						case "deleteFile":
 							process = new userProcess(user.getID(), 7, 4, cmd);
-							binFull=true;
+							binFull = true;
 							break;
 						case "play": {
 							process = new userProcess(user.getID(), 3, 7, cmd);
@@ -319,17 +319,16 @@ public class Main extends Application {
 						openedFolder(button.getText().substring(1));
 					}
 				});
-				if(desktop.getArrayFolder().get(folder).Name.equals("RecycleBin")) {
-				  if(!binFull)	
-					button.setStyle(
-							"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('recyclebin.jpg');");
-				  else
-					  button.setStyle(
+				if (desktop.getArrayFolder().get(folder).Name.equals("RecycleBin")) {
+					if (!binFull)
+						button.setStyle(
+								"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('recyclebin.jpg');");
+					else
+						button.setStyle(
 								"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('fullrecyclebin.jpg');");
-				}
-				else {
-				button.setStyle(
-						"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
+				} else {
+					button.setStyle(
+							"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
 				}
 				grid.add(button, j, r);
 			}
@@ -418,18 +417,17 @@ public class Main extends Application {
 						openedFolder(button.getText().substring(1));
 					}
 				});
-				if(desktop.getArrayFolder().get(folder).Name.equals("RecycleBin")) {
-					  if(!binFull)	
-							button.setStyle(
-									"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('recyclebin.jpg');");
-						  else
-							  button.setStyle(
-										"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('fullrecyclebin.jpg');");
-					
-				}
-				else {
-				button.setStyle(
-						"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
+				if (terminal.getCurrentDirectory().getArrayFolder().get(folder).Name.equals("RecycleBin")) {
+					if (!binFull)
+						button.setStyle(
+								"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('recyclebin.jpg');");
+					else
+						button.setStyle(
+								"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('fullrecyclebin.jpg');");
+
+				} else {
+					button.setStyle(
+							"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
 				}
 				grid.add(button, j, r);
 			}
@@ -450,12 +448,9 @@ public class Main extends Application {
 	}
 
 	public void back() {
-		if (pathStack.size() == 1) {
-			showAlert(Alert.AlertType.ERROR, window.getScene().getWindow(), "System Error!",
-					"CANNOT GO BEYOND DESKTOP!");
-			return;
+		if (pathStack.size() > 1) {
+			pathStack.pop();
 		}
-		pathStack.pop();
 		terminal.executeCommand("cd " + pathStack.peek());
 		refresh();
 	}
