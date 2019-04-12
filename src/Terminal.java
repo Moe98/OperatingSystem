@@ -3,6 +3,7 @@
 public class Terminal {
 	private Folder currentDirectory;
 	private Music music;
+	public static boolean parentDeletion;
 
 	public Terminal() {
 		// not sure how to know the name of the user
@@ -106,6 +107,7 @@ public class Terminal {
 				return false;
 			} else {
 				Folder to = Folder.getFolder(cmd.split(" ")[1]);
+				parentDeletion=true;
 				to.deleteAll();
 				return true;
 			}

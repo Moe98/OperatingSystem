@@ -1,16 +1,21 @@
-
 //package application;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
 
 import com.sun.glass.events.WindowEvent;
+
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -18,12 +23,20 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class Main extends Application {
 	// ==========GUI=================
@@ -31,9 +44,13 @@ public class Main extends Application {
 	static Stage fileTextWindow;
 	static TextArea cmdTextArea;
 	static TextArea fileText;
+	static TextArea nameField;
+	static Button submitButton = new Button("Login in");
+
 	// ==========GUI=================
 
 	public static Folder desktop;
+	public static Folder recycleBin;
 	public static Memory memory;
 	public static Disk disk;
 	public static User user;
@@ -41,26 +58,33 @@ public class Main extends Application {
 	public static Stack musicProcess = new Stack();
 	public static userProcess lastOpenFile;
 	public static GridPane grid;
+	public static Stack pathStack = new Stack();
+	public static boolean binFull = false;
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
+		pathStack.push("desktop");
 		user = new User();
 		schedulingAlgorithm(2500);
 		memory = new Memory();
 		disk = new Disk();
 		desktop = new Folder("desktop");
+		recycleBin = new Folder("RecycleBin");
 		desktop.path = "desktop";
 		terminal = new Terminal();
 		terminal.getCurrentDirectory().arrayFolder.add(new Folder("joe"));
+		terminal.getCurrentDirectory().arrayFolder.add(recycleBin);
 		terminal.getCurrentDirectory().arrayFolder.add(new Folder("moe"));
 		terminal.getCurrentDirectory().arrayFolder.add(new Folder("zizo"));
-		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.add(new Folder("mini moe"));
-		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFolder.add((new Folder("small mo")));
+		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.add(new Folder("minimoe"));
+		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFolder.add((new Folder("smallmo")));
 		terminal.getCurrentDirectory().arrayFile.add(new File("bye"));
 		terminal.getCurrentDirectory().arrayFile.get(0).addText("Hey dude");
 		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFile.add(new File("HELLO THERE"));
 		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFile.add(new File("HELLO MAN"));
 		// ==================================================GUI===================================================================
+		
+	
 		window = new Stage();
 		window.setTitle("Command Prompt");
 		cmdTextArea = new TextArea();
@@ -74,34 +98,93 @@ public class Main extends Application {
 		window.show();
 
 		grid = new GridPane();
-		grid.setPrefHeight(500);
-		grid.setPrefWidth(500);
+		grid.setPrefHeight(800);
+		grid.setPrefWidth(1500);
 		grid.setPadding(new Insets(2));
 		grid.setHgap(50);
 		grid.setVgap(50);
+		grid.setStyle(
+				"-fx-background-size: 1500px; -fx-background-repeat:no-repeat; -fx-background-image: url('windows.jpg')");
 		int folder = 0;
 		Button refreshButton = new Button();
 		refreshButton.setOnMouseClicked(new EventHandler() {
 			@Override
 			public void handle(Event e) {
+				ClassLoader CLDR = this.getClass().getClassLoader();
+				InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
+				AudioStream audioStream=null;
+				try {
+					audioStream = new AudioStream(soundName);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				AudioPlayer.player.start(audioStream);
 				refresh();
 			}
 		});
 		refreshButton.setStyle(
 				"-fx-background-size: 21px; -fx-background-repeat: no-repeat;-fx-background-image: url('refresh.jpg');");
-		grid.add(refreshButton, 3, 0);
+
+		Button backButton = new Button();
+		backButton.setOnMouseClicked(new EventHandler() {
+			@Override
+			public void handle(Event e) {
+				ClassLoader CLDR = this.getClass().getClassLoader();
+				InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
+				AudioStream audioStream=null;
+				try {
+					audioStream = new AudioStream(soundName);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				AudioPlayer.player.start(audioStream);
+				back();
+			}
+		});
+		backButton.setStyle(
+				"-fx-background-size: 21px; -fx-background-repeat: no-repeat;-fx-background-image: url('back.jpg');");
+
 		int r = 1;
 		for (; r < 5 && folder < desktop.getArrayFolder().size(); r++)
 			for (int j = 0; folder < desktop.getArrayFolder().size() && j < 5; folder++, j++) {
+
 				Button button = new Button('\n' + desktop.getArrayFolder().get(folder).Name);
 				button.setOnMouseClicked(new EventHandler() {
 					@Override
 					public void handle(Event e) {
+						ClassLoader CLDR = this.getClass().getClassLoader();
+						InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
+						AudioStream audioStream=null;
+						try {
+							audioStream = new AudioStream(soundName);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						AudioPlayer.player.start(audioStream);
 						openedFolder(button.getText().substring(1));
 					}
 				});
-				button.setStyle(
-						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
+				if (terminal.getCurrentDirectory().getArrayFolder().get(folder).Name.equals("RecycleBin")
+						&& desktop.getArrayFolder().get(folder).Name.equals("RecycleBin")) {
+					if (!binFull)
+						button.setStyle(
+								"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('recyclebin.jpg');");
+					else
+						button.setStyle(
+								"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('fullrecyclebin.jpg');");
+
+				} else {
+					if (desktop.getArrayFolder().get(folder).getArrayFolder().size()
+							+ desktop.getArrayFolder().get(folder).getArrayFile().size() == 0)
+						button.setStyle(
+								"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
+					else
+						button.setStyle(
+								"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folder.jpg');");
+				}
 				grid.add(button, j, r);
 			}
 		int file = 0;
@@ -111,17 +194,71 @@ public class Main extends Application {
 				button.setOnMouseClicked(new EventHandler() {
 					@Override
 					public void handle(Event e) {
+						ClassLoader CLDR = this.getClass().getClassLoader();
+						InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
+						AudioStream audioStream=null;
+						try {
+							audioStream = new AudioStream(soundName);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						AudioPlayer.player.start(audioStream);
 						openedFile(button.getText().substring(1));
 					}
 				});
 				button.setStyle(
-						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-text-fill: #ff0000;-fx-background-image: url('file.jpg');");
+						"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-text-fill: #000000;-fx-background-image: url('file.jpg');");
 				grid.add(button, j, r);
 			}
 		ScrollPane scrollPane = new ScrollPane(grid);
+		BorderPane root2 = new BorderPane();
 
-		primaryStage.setScene(new Scene(scrollPane));
+		HBox hbox1 = new HBox(backButton, refreshButton);
+		hbox1.setStyle("-fx-border-style: solid inside;   -fx-background-color: #2f4f4f;\n" + "    -fx-spacing: 10;");
+
+		root2.setTop(hbox1); // Set header
+		root2.setCenter(scrollPane); // add your table
+		
+		Scene scene2 = new Scene(root2);
+
+		//========================================================================================================================
+		GridPane gridPane = createRegistrationFormPane();
+
+		addUIControls(gridPane);
+
+		Scene scene1 = new Scene(gridPane);
+		primaryStage.setScene(scene1);
 		primaryStage.show();
+		
+		submitButton.setOnMouseClicked(new EventHandler() {
+			@Override
+			public void handle(Event e) {
+				ClassLoader CLDR = this.getClass().getClassLoader();
+				InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
+				AudioStream audioStream=null;
+				try {
+					audioStream = new AudioStream(soundName);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				AudioPlayer.player.start(audioStream);
+				if (nameField.getText().isEmpty()) {
+					showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
+							"Please enter your name");
+					return;
+				}else {
+				
+					primaryStage.setScene(scene2);
+				}
+				
+			}
+		});
+
+
+		//========================================================================================================================
+
 		// ==================================================GUI===================================================================
 
 		Scanner sc = new Scanner(System.in);
@@ -173,9 +310,11 @@ public class Main extends Application {
 							break;
 						case "deleteFolder":
 							process = new userProcess(user.getID(), 4, 4, cmd);
+							binFull = true;
 							break;
 						case "deleteFile":
 							process = new userProcess(user.getID(), 7, 4, cmd);
+							binFull = true;
 							break;
 						case "play": {
 							process = new userProcess(user.getID(), 3, 7, cmd);
@@ -255,52 +394,60 @@ public class Main extends Application {
 		for (Folder f : terminal.getCurrentDirectory().getArrayFolder())
 			if (f.Name.equals(path)) {
 				terminal.changeDirectory(f);
+				pathStack.push(pathStack.peek() + "/" + path);
+				System.out.println(pathStack.toString());
 				break;
 			}
-		grid.getChildren().clear();
-		grid.setPadding(new Insets(2));
-		grid.setHgap(50);
-		grid.setVgap(50);
-		Button refreshButton = new Button();
-		refreshButton.setOnMouseClicked(new EventHandler() {
-			@Override
-			public void handle(Event e) {
-				refresh();
-			}
-		});
-		refreshButton.setStyle(
-				"-fx-background-size: 21px; -fx-background-repeat: no-repeat;-fx-background-image: url('refresh.jpg');");
-		grid.add(refreshButton, 3, 0);
-		int folder = 0;
-		int r = 1;
-		for (; r < 5 && folder < terminal.getCurrentDirectory().getArrayFolder().size(); r++)
-			for (int j = 0; folder < terminal.getCurrentDirectory().getArrayFolder().size() && j < 5; folder++, j++) {
-				Button button = new Button('\n' + terminal.getCurrentDirectory().getArrayFolder().get(folder).Name);
-				button.setOnMouseClicked(new EventHandler() {
-					@Override
-					public void handle(Event e) {
-						// goBack();
-						openedFolder(button.getText().substring(1));
-					}
-				});
-				button.setStyle(
-						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
-				grid.add(button, j, r);
-			}
-		int file = 0;
-		for (; r < 10 && file < terminal.getCurrentDirectory().getArrayFile().size(); r++)
-			for (int j = 0; file < terminal.getCurrentDirectory().getArrayFile().size() && j < 5; file++, j++) {
-				Button button = new Button('\n' + terminal.getCurrentDirectory().getArrayFile().get(file).Name);
-				button.setOnMouseClicked(new EventHandler() {
-					@Override
-					public void handle(Event e) {
-						openedFile(button.getText().substring(1));
-					}
-				});
-				button.setStyle(
-						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-text-fill: #ff0000;-fx-background-image: url('file.jpg');");
-				grid.add(button, j, r);
-			}
+		refresh();
+//		grid.getChildren().clear();
+//		grid.setPadding(new Insets(2));
+//		grid.setHgap(50);
+//		grid.setVgap(50);
+//		grid.setStyle("-fx-background-size: 1500px; -fx-background-repeat:no-repeat;");
+//		int folder = 0;
+//		int r = 1;
+//		for (; r < 5 && folder < terminal.getCurrentDirectory().getArrayFolder().size(); r++)
+//			for (int j = 0; folder < terminal.getCurrentDirectory().getArrayFolder().size() && j < 5; folder++, j++) {
+//				Button button = new Button('\n' + terminal.getCurrentDirectory().getArrayFolder().get(folder).Name);
+//				button.setOnMouseClicked(new EventHandler() {
+//					@Override
+//					public void handle(Event e) {
+//						// goBack();
+//						openedFolder(button.getText().substring(1));
+//					}
+//				});
+//				if (desktop.getArrayFolder().get(folder).Name.equals("RecycleBin")) {
+//					if (!binFull)
+//						button.setStyle(
+//								"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('recyclebin.jpg');");
+//					else
+//						button.setStyle(
+//								"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('fullrecyclebin.jpg');");
+//				} else {
+//					if (desktop.getArrayFile().size() + desktop.getArrayFolder().size() == 0)
+//						button.setStyle(
+//								"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
+//					else
+//						button.setStyle(
+//								"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folder.jpg');");
+//				}
+//				grid.add(button, j, r);
+//			}
+//		int file = 0;
+//		for (; r < 10 && file < terminal.getCurrentDirectory().getArrayFile().size(); r++)
+//			for (int j = 0; file < terminal.getCurrentDirectory().getArrayFile().size() && j < 5; file++, j++) {
+//				Button button = new Button('\n' + terminal.getCurrentDirectory().getArrayFile().get(file).Name);
+//				button.setOnMouseClicked(new EventHandler() {
+//					@Override
+//					public void handle(Event e) {
+//						openedFile(button.getText().substring(1));
+//					}
+//				});
+//				button.setStyle(
+//						"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-text-fill: #000000;-fx-background-image: url('file.jpg');");
+//				grid.add(button, j, r);
+//			}
+////		refresh();
 	}
 
 	public void openedFile(String path) {
@@ -347,25 +494,15 @@ public class Main extends Application {
 		// add in memory!!!
 	}
 
-	public void goBack(String path) {
-		System.out.println("Path: " + path);
-	}
-
 	public void refresh() {
 		grid.getChildren().clear();
 		grid.setPadding(new Insets(2));
 		grid.setHgap(50);
 		grid.setVgap(50);
-		Button refreshButton = new Button();
-		refreshButton.setOnMouseClicked(new EventHandler() {
-			@Override
-			public void handle(Event e) {
-				refresh();
-			}
-		});
-		refreshButton.setStyle(
-				"-fx-background-size: 21px; -fx-background-repeat: no-repeat;-fx-background-image: url('refresh.jpg');");
-		grid.add(refreshButton, 3, 0);
+		grid.setStyle("-fx-background-size: 1500px; -fx-background-repeat:no-repeat;");
+		if (terminal.getCurrentDirectory().path != null && terminal.getCurrentDirectory().path.equals("desktop"))
+			grid.setStyle(
+					"-fx-background-size: 1500px; -fx-background-repeat:no-repeat; -fx-background-image: url('windows.jpg')");
 		int folder = 0;
 		int r = 1;
 		for (; r < 5 && folder < terminal.getCurrentDirectory().getArrayFolder().size(); r++)
@@ -374,12 +511,42 @@ public class Main extends Application {
 				button.setOnMouseClicked(new EventHandler() {
 					@Override
 					public void handle(Event e) {
-						// goBack();
+						ClassLoader CLDR = this.getClass().getClassLoader();
+						InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
+						AudioStream audioStream=null;
+						try {
+							audioStream = new AudioStream(soundName);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						AudioPlayer.player.start(audioStream);
 						openedFolder(button.getText().substring(1));
 					}
 				});
-				button.setStyle(
-						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
+				if (terminal.getCurrentDirectory().getArrayFolder().get(folder).Name.equals("RecycleBin")
+						&& desktop.getArrayFolder().get(folder).Name.equals("RecycleBin")) {
+					if (!binFull)
+						button.setStyle(
+								"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('recyclebin.jpg');");
+					else
+						button.setStyle(
+								"-fx-background-color: transparent; -fx-background-size: 35px; -fx-background-repeat: no-repeat;-fx-background-image: url('fullrecyclebin.jpg');");
+
+				} else {
+//					System.out.println(
+//							terminal.getCurrentDirectory().getArrayFolder().get(folder).getArrayFolder().size());
+//					System.out
+//							.println(terminal.getCurrentDirectory().getArrayFolder().get(folder).getArrayFile().size());
+					if (terminal.getCurrentDirectory().getArrayFolder().get(folder).getArrayFolder().size()
+							+ terminal.getCurrentDirectory().getArrayFolder().get(folder).getArrayFile().size() == 0)
+
+						button.setStyle(
+								"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folderEmpty.jpg');");
+					else
+						button.setStyle(
+								"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-background-image: url('folder.jpg');");
+				}
 				grid.add(button, j, r);
 			}
 		int file = 0;
@@ -389,13 +556,40 @@ public class Main extends Application {
 				button.setOnMouseClicked(new EventHandler() {
 					@Override
 					public void handle(Event e) {
+						ClassLoader CLDR = this.getClass().getClassLoader();
+						InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
+						AudioStream audioStream=null;
+						try {
+							audioStream = new AudioStream(soundName);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						AudioPlayer.player.start(audioStream);
 						openedFile(button.getText().substring(1));
 					}
 				});
 				button.setStyle(
-						"-fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-text-fill: #ff0000;-fx-background-image: url('file.jpg');");
+						"-fx-background-color: transparent; -fx-background-size: 30px; -fx-background-repeat: no-repeat;-fx-text-fill: #000000;-fx-background-image: url('file.jpg');");
 				grid.add(button, j, r);
 			}
+	}
+
+	public void back() {
+		if (pathStack.size() > 1) {
+			pathStack.pop();
+		}
+		terminal.executeCommand("cd " + pathStack.peek());
+		refresh();
+	}
+
+	private void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
+		Alert alert = new Alert(alertType);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.initOwner(owner);
+		alert.show();
 	}
 
 	public void render() {
@@ -404,4 +598,47 @@ public class Main extends Application {
 		ArrayList<Folder> folderList = currDir.getArrayFolder();
 
 	}
+	
+	
+	private GridPane createRegistrationFormPane() {
+		// Instantiate a new Grid Pane
+		GridPane gridPane = new GridPane();
+
+		gridPane.setPrefHeight(800);
+		gridPane.setPrefWidth(1500);
+		gridPane.setPadding(new Insets(2));
+		gridPane.setHgap(50);
+		gridPane.setVgap(50);
+		gridPane.setStyle(
+				"-fx-background-size: 1500px; -fx-background-repeat:no-repeat; -fx-background-image: url('login.jpg')");
+	
+		gridPane.setAlignment(Pos.CENTER);
+
+	
+
+		return gridPane;
+	}
+
+	private void addUIControls(GridPane gridPane) {
+	
+		nameField = new TextArea();
+		nameField.setPrefHeight(40);
+		nameField.setStyle("-fx-control-inner-background: #ffffff;");
+
+		gridPane.add(nameField, 0, 7, 2, 1);
+
+		submitButton.setPrefHeight(40);
+		submitButton.setDefaultButton(true);
+		submitButton.setPrefWidth(100);
+		gridPane.add(submitButton, 0, 8, 2, 1);
+		GridPane.setHalignment(submitButton, HPos.CENTER);
+		GridPane.setMargin(submitButton, new Insets(20, 0, 20, 0));
+
+	}
+
+	
+	
+	
+	
+	
 }
