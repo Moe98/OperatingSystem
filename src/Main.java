@@ -1,10 +1,11 @@
-
 //package application;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.util.Scanner;
 import java.util.Stack;
 
 import com.sun.glass.events.WindowEvent;
+
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -26,8 +28,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class Main extends Application {
 	// ==========GUI=================
@@ -35,6 +41,9 @@ public class Main extends Application {
 	static Stage fileTextWindow;
 	static TextArea cmdTextArea;
 	static TextArea fileText;
+	static TextArea nameField;
+	static Button submitButton = new Button("Login in");
+
 	// ==========GUI=================
 
 	public static Folder desktop;
@@ -71,6 +80,8 @@ public class Main extends Application {
 		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFile.add(new File("HELLO THERE"));
 		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFile.add(new File("HELLO MAN"));
 		// ==================================================GUI===================================================================
+		
+	
 		window = new Stage();
 		window.setTitle("Command Prompt");
 		cmdTextArea = new TextArea();
@@ -165,10 +176,33 @@ public class Main extends Application {
 
 		root2.setTop(hbox1); // Set header
 		root2.setCenter(scrollPane); // add your table
-
+		
 		Scene scene2 = new Scene(root2);
-		primaryStage.setScene(scene2);
+
+		//========================================================================================================================
+		GridPane gridPane = createRegistrationFormPane();
+
+		addUIControls(gridPane);
+
+		Scene scene1 = new Scene(gridPane);
+		primaryStage.setScene(scene1);
 		primaryStage.show();
+
+		submitButton.setOnAction(e -> {
+
+			if (nameField.getText().isEmpty()) {
+				showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
+						"Please enter your name");
+				return;
+			}else {
+
+			
+				primaryStage.setScene(scene2);
+			}
+			
+		});
+		//========================================================================================================================
+
 		// ==================================================GUI===================================================================
 
 		Scanner sc = new Scanner(System.in);
@@ -488,4 +522,47 @@ public class Main extends Application {
 		ArrayList<Folder> folderList = currDir.getArrayFolder();
 
 	}
+	
+	
+	private GridPane createRegistrationFormPane() {
+		// Instantiate a new Grid Pane
+		GridPane gridPane = new GridPane();
+
+		gridPane.setPrefHeight(800);
+		gridPane.setPrefWidth(1500);
+		gridPane.setPadding(new Insets(2));
+		gridPane.setHgap(50);
+		gridPane.setVgap(50);
+		gridPane.setStyle(
+				"-fx-background-size: 1500px; -fx-background-repeat:no-repeat; -fx-background-image: url('login.jpg')");
+	
+		gridPane.setAlignment(Pos.CENTER);
+
+	
+
+		return gridPane;
+	}
+
+	private void addUIControls(GridPane gridPane) {
+	
+		nameField = new TextArea();
+		nameField.setPrefHeight(40);
+		nameField.setStyle("-fx-control-inner-background: #ffffff;");
+
+		gridPane.add(nameField, 0, 7, 2, 1);
+
+		submitButton.setPrefHeight(40);
+		submitButton.setDefaultButton(true);
+		submitButton.setPrefWidth(100);
+		gridPane.add(submitButton, 0, 8, 2, 1);
+		GridPane.setHalignment(submitButton, HPos.CENTER);
+		GridPane.setMargin(submitButton, new Insets(20, 0, 20, 0));
+
+	}
+
+	
+	
+	
+	
+	
 }
