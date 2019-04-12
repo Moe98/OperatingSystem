@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
@@ -23,6 +24,8 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
@@ -107,6 +110,16 @@ public class Main extends Application {
 		refreshButton.setOnMouseClicked(new EventHandler() {
 			@Override
 			public void handle(Event e) {
+				ClassLoader CLDR = this.getClass().getClassLoader();
+				InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
+				AudioStream audioStream=null;
+				try {
+					audioStream = new AudioStream(soundName);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				AudioPlayer.player.start(audioStream);
 				refresh();
 			}
 		});
@@ -117,6 +130,16 @@ public class Main extends Application {
 		backButton.setOnMouseClicked(new EventHandler() {
 			@Override
 			public void handle(Event e) {
+				ClassLoader CLDR = this.getClass().getClassLoader();
+				InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
+				AudioStream audioStream=null;
+				try {
+					audioStream = new AudioStream(soundName);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				AudioPlayer.player.start(audioStream);
 				back();
 			}
 		});
@@ -131,6 +154,16 @@ public class Main extends Application {
 				button.setOnMouseClicked(new EventHandler() {
 					@Override
 					public void handle(Event e) {
+						ClassLoader CLDR = this.getClass().getClassLoader();
+						InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
+						AudioStream audioStream=null;
+						try {
+							audioStream = new AudioStream(soundName);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						AudioPlayer.player.start(audioStream);
 						openedFolder(button.getText().substring(1));
 					}
 				});
@@ -161,6 +194,16 @@ public class Main extends Application {
 				button.setOnMouseClicked(new EventHandler() {
 					@Override
 					public void handle(Event e) {
+						ClassLoader CLDR = this.getClass().getClassLoader();
+						InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
+						AudioStream audioStream=null;
+						try {
+							audioStream = new AudioStream(soundName);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						AudioPlayer.player.start(audioStream);
 						openedFile(button.getText().substring(1));
 					}
 				});
@@ -187,20 +230,33 @@ public class Main extends Application {
 		Scene scene1 = new Scene(gridPane);
 		primaryStage.setScene(scene1);
 		primaryStage.show();
-
-		submitButton.setOnAction(e -> {
-
-			if (nameField.getText().isEmpty()) {
-				showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
-						"Please enter your name");
-				return;
-			}else {
-
-			
-				primaryStage.setScene(scene2);
+		
+		submitButton.setOnMouseClicked(new EventHandler() {
+			@Override
+			public void handle(Event e) {
+				ClassLoader CLDR = this.getClass().getClassLoader();
+				InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
+				AudioStream audioStream=null;
+				try {
+					audioStream = new AudioStream(soundName);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				AudioPlayer.player.start(audioStream);
+				if (nameField.getText().isEmpty()) {
+					showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
+							"Please enter your name");
+					return;
+				}else {
+				
+					primaryStage.setScene(scene2);
+				}
+				
 			}
-			
 		});
+
+
 		//========================================================================================================================
 
 		// ==================================================GUI===================================================================
@@ -455,6 +511,16 @@ public class Main extends Application {
 				button.setOnMouseClicked(new EventHandler() {
 					@Override
 					public void handle(Event e) {
+						ClassLoader CLDR = this.getClass().getClassLoader();
+						InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
+						AudioStream audioStream=null;
+						try {
+							audioStream = new AudioStream(soundName);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						AudioPlayer.player.start(audioStream);
 						openedFolder(button.getText().substring(1));
 					}
 				});
@@ -490,6 +556,16 @@ public class Main extends Application {
 				button.setOnMouseClicked(new EventHandler() {
 					@Override
 					public void handle(Event e) {
+						ClassLoader CLDR = this.getClass().getClassLoader();
+						InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
+						AudioStream audioStream=null;
+						try {
+							audioStream = new AudioStream(soundName);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						AudioPlayer.player.start(audioStream);
 						openedFile(button.getText().substring(1));
 					}
 				});
