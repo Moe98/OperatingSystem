@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 //package application;
 
 public class Terminal {
@@ -10,9 +12,11 @@ public class Terminal {
 		// System.out.println("Welcome User");
 		currentDirectory = Main.desktop;
 	}
+
 	public Folder getCurrentDirectory() {
 		return currentDirectory;
 	}
+
 	public boolean changeDirectory(Folder folder) { // cd
 		// System.out.println(folder.toString());
 		if (folder == null)
@@ -107,8 +111,18 @@ public class Terminal {
 				return false;
 			} else {
 				Folder to = Folder.getFolder(cmd.split(" ")[1]);
-				parentDeletion=true;
+				String folderName = cmd.split(" ")[1];
+				String pathNames[] = folderName.split("/");
+				String parentPath = "";
+				for (int i = 0; i < pathNames.length - 1; i++)
+					if (i != pathNames.length - 1)
+						parentPath += pathNames[i] + "/";
+				parentPath = parentPath.substring(0, parentPath.length() - 1);
+				parentDeletion = true;
 				to.deleteAll();
+				System.out.println("parentPath: " + parentPath);
+				Folder parentFolder = Folder.getFolder(parentPath);
+				parentFolder.deleteFolderInside(pathNames[pathNames.length - 1]);
 				return true;
 			}
 		}
