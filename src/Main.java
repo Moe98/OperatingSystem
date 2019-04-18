@@ -1,3 +1,4 @@
+
 //package application;
 
 import javafx.scene.control.Alert;
@@ -11,12 +12,14 @@ import javafx.scene.control.ScrollPane;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Stack;
 
-import com.sun.glass.events.WindowEvent;
+//import com.sun.glass.events.WindowEvent;
 
-
+import javafx.stage.WindowEvent;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -45,7 +48,7 @@ public class Main extends Application {
 	static TextArea cmdTextArea;
 	static TextArea fileText;
 	static TextArea nameField;
-	static Button submitButton = new Button("Login in");
+	static Button submitButton = new Button("Login");
 
 	// ==========GUI=================
 
@@ -60,6 +63,7 @@ public class Main extends Application {
 	public static GridPane grid;
 	public static Stack pathStack = new Stack();
 	public static boolean binFull = false;
+	public static HashMap<String, Integer> fileIDMap = new HashMap<>();
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
@@ -72,19 +76,18 @@ public class Main extends Application {
 		recycleBin = new Folder("RecycleBin");
 		desktop.path = "desktop";
 		terminal = new Terminal();
-		terminal.getCurrentDirectory().arrayFolder.add(new Folder("joe"));
-		terminal.getCurrentDirectory().arrayFolder.add(recycleBin);
-		terminal.getCurrentDirectory().arrayFolder.add(new Folder("moe"));
-		terminal.getCurrentDirectory().arrayFolder.add(new Folder("zizo"));
-		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.add(new Folder("minimoe"));
-		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFolder.add((new Folder("smallmo")));
-		terminal.getCurrentDirectory().arrayFile.add(new File("bye"));
-		terminal.getCurrentDirectory().arrayFile.get(0).addText("Hey dude");
-		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFile.add(new File("HELLO THERE"));
-		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFile.add(new File("HELLO MAN"));
+//		terminal.getCurrentDirectory().arrayFolder.add(new Folder("joe"));
+//		terminal.getCurrentDirectory().arrayFolder.add(recycleBin);
+//		terminal.getCurrentDirectory().arrayFolder.add(new Folder("moe"));
+//		terminal.getCurrentDirectory().arrayFolder.add(new Folder("zizo"));
+//		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.add(new Folder("minimoe"));
+//		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFolder.add((new Folder("smallmo")));
+//		terminal.getCurrentDirectory().arrayFile.add(new File("bye"));
+//		terminal.getCurrentDirectory().arrayFile.get(0).addText("Heydude");
+//		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFile.add(new File("HELLOTHERE"));
+//		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFile.add(new File("HELLOMAN"));
 		// ==================================================GUI===================================================================
-		
-	
+
 		window = new Stage();
 		window.setTitle("Command Prompt");
 		cmdTextArea = new TextArea();
@@ -112,7 +115,7 @@ public class Main extends Application {
 			public void handle(Event e) {
 				ClassLoader CLDR = this.getClass().getClassLoader();
 				InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
-				AudioStream audioStream=null;
+				AudioStream audioStream = null;
 				try {
 					audioStream = new AudioStream(soundName);
 				} catch (IOException e1) {
@@ -132,7 +135,7 @@ public class Main extends Application {
 			public void handle(Event e) {
 				ClassLoader CLDR = this.getClass().getClassLoader();
 				InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
-				AudioStream audioStream=null;
+				AudioStream audioStream = null;
 				try {
 					audioStream = new AudioStream(soundName);
 				} catch (IOException e1) {
@@ -156,7 +159,7 @@ public class Main extends Application {
 					public void handle(Event e) {
 						ClassLoader CLDR = this.getClass().getClassLoader();
 						InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
-						AudioStream audioStream=null;
+						AudioStream audioStream = null;
 						try {
 							audioStream = new AudioStream(soundName);
 						} catch (IOException e1) {
@@ -196,7 +199,7 @@ public class Main extends Application {
 					public void handle(Event e) {
 						ClassLoader CLDR = this.getClass().getClassLoader();
 						InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
-						AudioStream audioStream=null;
+						AudioStream audioStream = null;
 						try {
 							audioStream = new AudioStream(soundName);
 						} catch (IOException e1) {
@@ -204,7 +207,10 @@ public class Main extends Application {
 							e1.printStackTrace();
 						}
 						AudioPlayer.player.start(audioStream);
-						openedFile(button.getText().substring(1));
+						Process process = new userProcess(user.getID(), 4, 5,
+								"openFile " + button.getText().substring(1));
+						user.pushProcess(process);
+//						openedFile(button.getText().substring(1));
 					}
 				});
 				button.setStyle(
@@ -219,10 +225,10 @@ public class Main extends Application {
 
 		root2.setTop(hbox1); // Set header
 		root2.setCenter(scrollPane); // add your table
-		
+
 		Scene scene2 = new Scene(root2);
 
-		//========================================================================================================================
+		// ========================================================================================================================
 		GridPane gridPane = createRegistrationFormPane();
 
 		addUIControls(gridPane);
@@ -230,13 +236,13 @@ public class Main extends Application {
 		Scene scene1 = new Scene(gridPane);
 		primaryStage.setScene(scene1);
 		primaryStage.show();
-		
+
 		submitButton.setOnMouseClicked(new EventHandler() {
 			@Override
 			public void handle(Event e) {
 				ClassLoader CLDR = this.getClass().getClassLoader();
 				InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
-				AudioStream audioStream=null;
+				AudioStream audioStream = null;
 				try {
 					audioStream = new AudioStream(soundName);
 				} catch (IOException e1) {
@@ -248,16 +254,15 @@ public class Main extends Application {
 					showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
 							"Please enter your name");
 					return;
-				}else {
-				
+				} else {
+
 					primaryStage.setScene(scene2);
 				}
-				
+
 			}
 		});
 
-
-		//========================================================================================================================
+		// ========================================================================================================================
 
 		// ==================================================GUI===================================================================
 
@@ -329,7 +334,7 @@ public class Main extends Application {
 							lastOpenFile = new userProcess(process.getID(), 4, 5, cmd);
 							break;
 						case "closeFile":
-							process = new userProcess(user.getID(), 1, 5, cmd); // change weight in memory to 0!!!
+							process = new userProcess(user.getID(), 1, 0, cmd); // change weight in memory to 0!!!
 							break;
 						case "editFile":
 							process = new userProcess(user.getID(), 2, 10, cmd);
@@ -338,7 +343,6 @@ public class Main extends Application {
 					if (process != null) {
 						System.out.println("pushed process");
 						user.pushProcess(process);
-
 					}
 				}
 			}
@@ -364,6 +368,13 @@ public class Main extends Application {
 							boolean assigned = memory.assignProcess(process);
 							if (assigned) {
 								terminal.executeCommand(user.getPriorityQueue().poll().getPcb());
+								if (process.getPcb().split(" ")[0].equals("openFile")) {
+									System.out.println(terminal.getCurrentDirectory().path);
+									fileIDMap.put(
+											terminal.getCurrentDirectory().path + "/" + process.getPcb().split(" ")[1],
+											process.getID());
+									openedFile(process.getPcb().split(" ")[1]);
+								}
 								// System.out.println("here");
 							}
 							if (assigned && !process.getPcb().split(" ")[0].equals("play")
@@ -374,12 +385,24 @@ public class Main extends Application {
 									memory.removeProcess((Process) musicProcess.pop());
 								}
 								if (process.getPcb().split(" ")[0].equals("closeFile")) {
+									int id = fileIDMap.get(
+											terminal.getCurrentDirectory().path + "/" + process.getPcb().split(" ")[1]);
+									memory.removeProcess(id);
+									Platform.runLater(new Runnable() {
 
+										@Override
+										public void run() {
+//											 TODO Auto-generated method stub
+											fileTextWindow.close();
+										}
+									});
+									System.out.println("id: " + id);
 								}
 								// System.out.println(process.getID());
 								memory.removeProcess(process);
 								user.getPriorityQueue().poll();
 							}
+							System.out.println(Arrays.toString(memory.memory)); // memory
 						}
 					} catch (Exception e) {
 						// System.out.println("exception");
@@ -450,7 +473,7 @@ public class Main extends Application {
 ////		refresh();
 	}
 
-	public void openedFile(String path) {
+	public static void openedFile(String path) {
 		// add in memory!!!
 		// add in memory!!!
 		// add in memory!!!
@@ -462,24 +485,40 @@ public class Main extends Application {
 		// add in memory!!!
 		// add in memory!!!
 		// add in memory!!!
+		System.out.println("Path: " + path);
+		Platform.runLater(new Runnable() {
 
-		fileTextWindow = new Stage();
-		fileTextWindow.setTitle(path);
-		fileText = new TextArea();
-		fileText.setPrefHeight(400);
-		fileText.setPrefWidth(900);
-		fileText.setStyle("-fx-control-inner-background: #ffffff; -fx-font-size: 16px;-fx-font-weight:bold;");
-		String text = "";
-		for (File f : terminal.getCurrentDirectory().getArrayFile())
-			if (f.Name.equals(path)) {
-				text = f.getText();
-				break;
+			@Override
+			public void run() {
+				String text = "";
+				fileTextWindow = new Stage();
+				fileTextWindow.setTitle(path);
+				fileText = new TextArea();
+				fileText.setPrefHeight(400);
+				fileText.setPrefWidth(900);
+				fileText.setStyle("-fx-control-inner-background: #ffffff; -fx-font-size: 16px;-fx-font-weight:bold;");
+				for (File f : terminal.getCurrentDirectory().getArrayFile())
+					if (f.Name.equals(path)) {
+						text = f.getText();
+						break;
+					}
+				fileText.appendText(text);
+				// TODO Auto-generated method stub
+				fileText.setEditable(false);
+				Scene textScene = new Scene(fileText);
+				fileTextWindow.setScene(textScene);
+				fileTextWindow.show();
+				System.out.println("Current directory: " + terminal.getCurrentDirectory().path);
+				fileTextWindow.setOnCloseRequest(new EventHandler<WindowEvent>() {
+					public void handle(WindowEvent we) {
+						Process process = new userProcess(user.getID(), 4, 5, "closeFile " + path); // how to handle
+																									// this?
+						user.pushProcess(process);
+						System.out.println("Stage is closing");
+					}
+				});
 			}
-		fileText.appendText(text);
-		fileText.setEditable(false);
-		Scene textScene = new Scene(fileText);
-		fileTextWindow.setScene(textScene);
-		fileTextWindow.show();
+		});
 
 		// add in memory!!!
 		// add in memory!!!
@@ -513,7 +552,7 @@ public class Main extends Application {
 					public void handle(Event e) {
 						ClassLoader CLDR = this.getClass().getClassLoader();
 						InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
-						AudioStream audioStream=null;
+						AudioStream audioStream = null;
 						try {
 							audioStream = new AudioStream(soundName);
 						} catch (IOException e1) {
@@ -558,7 +597,7 @@ public class Main extends Application {
 					public void handle(Event e) {
 						ClassLoader CLDR = this.getClass().getClassLoader();
 						InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
-						AudioStream audioStream=null;
+						AudioStream audioStream = null;
 						try {
 							audioStream = new AudioStream(soundName);
 						} catch (IOException e1) {
@@ -566,7 +605,9 @@ public class Main extends Application {
 							e1.printStackTrace();
 						}
 						AudioPlayer.player.start(audioStream);
-						openedFile(button.getText().substring(1));
+						Process process = new userProcess(user.getID(), 4, 5,
+								"openFile " + button.getText().substring(1));
+						user.pushProcess(process);
 					}
 				});
 				button.setStyle(
@@ -598,8 +639,7 @@ public class Main extends Application {
 		ArrayList<Folder> folderList = currDir.getArrayFolder();
 
 	}
-	
-	
+
 	private GridPane createRegistrationFormPane() {
 		// Instantiate a new Grid Pane
 		GridPane gridPane = new GridPane();
@@ -611,16 +651,14 @@ public class Main extends Application {
 		gridPane.setVgap(50);
 		gridPane.setStyle(
 				"-fx-background-size: 1500px; -fx-background-repeat:no-repeat; -fx-background-image: url('login.jpg')");
-	
-		gridPane.setAlignment(Pos.CENTER);
 
-	
+		gridPane.setAlignment(Pos.CENTER);
 
 		return gridPane;
 	}
 
 	private void addUIControls(GridPane gridPane) {
-	
+
 		nameField = new TextArea();
 		nameField.setPrefHeight(40);
 		nameField.setStyle("-fx-control-inner-background: #ffffff;");
@@ -635,10 +673,4 @@ public class Main extends Application {
 		GridPane.setMargin(submitButton, new Insets(20, 0, 20, 0));
 
 	}
-
-	
-	
-	
-	
-	
 }
