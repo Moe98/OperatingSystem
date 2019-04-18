@@ -38,6 +38,13 @@ public class Memory {
 		return true;
 	}
 
+	public boolean removeProcess(int processID) {
+		for (int i = 0; i < memory.length; i++)
+			if (memory[i] == processID)
+				memory[i] = FREE;
+		return true;
+	}
+
 	public int getAvailable() {
 		int ans = 0;
 		for (int x : memory)
