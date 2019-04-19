@@ -220,7 +220,7 @@ public class Main extends Application {
 		ScrollPane scrollPane = new ScrollPane(grid);
 		BorderPane root2 = new BorderPane();
 
-		HBox hbox1 = new HBox(backButton, refreshButton);
+		HBox hbox1 = new HBox(backButton);
 		hbox1.setStyle("-fx-border-style: solid inside;   -fx-background-color: #2f4f4f;\n" + "    -fx-spacing: 10;");
 
 		root2.setTop(hbox1); // Set header
@@ -362,6 +362,16 @@ public class Main extends Application {
 					System.out.print("");
 					try {
 						if (!user.getPriorityQueue().isEmpty()) {
+							Platform.runLater(new Runnable() {
+
+								@Override
+								public void run() {
+									// TODO Auto-generated method stub
+									refresh();
+
+								}
+
+							});
 							System.out.println("in thread");
 							// System.out.println(Arrays.toString(memory.memory));
 							Process process = user.getPriorityQueue().peek();
@@ -413,7 +423,7 @@ public class Main extends Application {
 		}.start();
 	}
 
-	public void openedFolder(String path) {
+	public static void openedFolder(String path) {
 		for (Folder f : terminal.getCurrentDirectory().getArrayFolder())
 			if (f.Name.equals(path)) {
 				terminal.changeDirectory(f);
@@ -533,7 +543,7 @@ public class Main extends Application {
 		// add in memory!!!
 	}
 
-	public void refresh() {
+	public static void refresh() {
 		grid.getChildren().clear();
 		grid.setPadding(new Insets(2));
 		grid.setHgap(50);
