@@ -76,16 +76,16 @@ public class Main extends Application {
 		recycleBin = new Folder("RecycleBin");
 		desktop.path = "desktop";
 		terminal = new Terminal();
-//		terminal.getCurrentDirectory().arrayFolder.add(new Folder("joe"));
-//		terminal.getCurrentDirectory().arrayFolder.add(recycleBin);
-//		terminal.getCurrentDirectory().arrayFolder.add(new Folder("moe"));
-//		terminal.getCurrentDirectory().arrayFolder.add(new Folder("zizo"));
-//		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.add(new Folder("minimoe"));
-//		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFolder.add((new Folder("smallmo")));
-//		terminal.getCurrentDirectory().arrayFile.add(new File("bye"));
-//		terminal.getCurrentDirectory().arrayFile.get(0).addText("Heydude");
-//		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFile.add(new File("HELLOTHERE"));
-//		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFile.add(new File("HELLOMAN"));
+		terminal.getCurrentDirectory().arrayFolder.add(new Folder("joe"));
+		terminal.getCurrentDirectory().arrayFolder.add(recycleBin);
+		terminal.getCurrentDirectory().arrayFolder.add(new Folder("moe"));
+		terminal.getCurrentDirectory().arrayFolder.add(new Folder("zizo"));
+		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.add(new Folder("minimoe"));
+		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFolder.add((new Folder("smallmo")));
+		terminal.getCurrentDirectory().arrayFile.add(new File("bye"));
+		terminal.getCurrentDirectory().arrayFile.get(0).addText("Heydude");
+		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFile.add(new File("HELLOTHERE"));
+		terminal.getCurrentDirectory().arrayFolder.get(0).arrayFolder.get(0).arrayFile.add(new File("HELLOMAN"));
 		// ==================================================GUI===================================================================
 
 		window = new Stage();
