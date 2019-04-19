@@ -107,6 +107,7 @@ public class Folder {
 		}
 		arrayFolder.clear();
 		for (File file : arrayFile) {
+			Main.recycleBin.arrayFile.add(file);
 			Main.disk.removeProcess(file);
 			}
 		arrayFile.clear();
@@ -119,6 +120,7 @@ public class Folder {
 			File curFile = arrayFile.get(i);
 			if (curFile.Name.equals(name)) {
 				found = true;
+				Main.recycleBin.arrayFile.add(curFile);
 				Main.disk.removeProcess(curFile);
 				arrayFile.remove(i);
 				break;
