@@ -30,6 +30,10 @@ import javafx.stage.Window;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -44,11 +48,21 @@ import javafx.scene.text.FontWeight;
 public class Main extends Application {
 	// ==========GUI=================
 	static Stage window;
+	static Stage window2;
+	static Scene scenez ;
 	static Stage fileTextWindow;
 	static TextArea cmdTextArea;
 	static TextArea fileText;
 	static TextArea nameField;
 	static Button submitButton = new Button("Login");
+	public static  XYChart.Series series1 = new XYChart.Series();
+	public static  XYChart.Series series2 = new XYChart.Series();
+	public static  XYChart.Series series3 = new XYChart.Series();
+
+	public static  CategoryAxis xAxis = new CategoryAxis();
+	public static  NumberAxis yAxis = new NumberAxis();
+	public static  BarChart<String,Number> bc = 
+         new BarChart<String,Number>(xAxis,yAxis);
 
 	// ==========GUI=================
 
@@ -74,6 +88,11 @@ public class Main extends Application {
 		disk = new Disk();
 		desktop = new Folder("desktop");
 		recycleBin = new Folder("RecycleBin");
+		window2 = new Stage();
+		
+        bc.setTitle("statistcis");
+     	scenez  = new Scene(bc,800,600);
+	    statistics((int)(memory.getAvailable()*Math.random()), (int)(memory.getAvailable()*Math.random()), disk.getAvailable());	
 		desktop.path = "desktop";
 		terminal = new Terminal();
 		terminal.getCurrentDirectory().arrayFolder.add(new Folder("joe"));
@@ -113,6 +132,7 @@ public class Main extends Application {
 		refreshButton.setOnMouseClicked(new EventHandler() {
 			@Override
 			public void handle(Event e) {
+				updateStatistics((int)(memory.getAvailable()*Math.random()), (int)(memory.getAvailable()*Math.random()), disk.getAvailable());
 				ClassLoader CLDR = this.getClass().getClassLoader();
 				InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
 				AudioStream audioStream = null;
@@ -133,6 +153,7 @@ public class Main extends Application {
 		backButton.setOnMouseClicked(new EventHandler() {
 			@Override
 			public void handle(Event e) {
+				updateStatistics((int)(memory.getAvailable()*Math.random()), (int)(memory.getAvailable()*Math.random()), disk.getAvailable());
 				ClassLoader CLDR = this.getClass().getClassLoader();
 				InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
 				AudioStream audioStream = null;
@@ -157,6 +178,7 @@ public class Main extends Application {
 				button.setOnMouseClicked(new EventHandler() {
 					@Override
 					public void handle(Event e) {
+						updateStatistics((int)(memory.getAvailable()*Math.random()),(int)(memory.getAvailable()*Math.random()), disk.getAvailable());
 						ClassLoader CLDR = this.getClass().getClassLoader();
 						InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
 						AudioStream audioStream = null;
@@ -197,6 +219,7 @@ public class Main extends Application {
 				button.setOnMouseClicked(new EventHandler() {
 					@Override
 					public void handle(Event e) {
+						updateStatistics((int)(memory.getAvailable()*Math.random()), (int)(memory.getAvailable()*Math.random()), disk.getAvailable());
 						ClassLoader CLDR = this.getClass().getClassLoader();
 						InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
 						AudioStream audioStream = null;
@@ -240,6 +263,7 @@ public class Main extends Application {
 		submitButton.setOnMouseClicked(new EventHandler() {
 			@Override
 			public void handle(Event e) {
+				updateStatistics((int)(memory.getAvailable()*Math.random()), (int)(memory.getAvailable()*Math.random()), disk.getAvailable());
 				ClassLoader CLDR = this.getClass().getClassLoader();
 				InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
 				AudioStream audioStream = null;
@@ -347,6 +371,58 @@ public class Main extends Application {
 				}
 			}
 		});
+
+	}
+	
+public static void statistics(int cpu, int memory, int disk ) {
+		
+		window2.setTitle("statistcis");
+		
+		
+	        xAxis.setLabel("pc perfromance keys");       
+	        yAxis.setLabel("Value");
+	 
+	        series1.setName("cpu avaliable");       
+	        series1.getData().add(new XYChart.Data("cpu avaliable", cpu));
+	     
+	        series2.setName("memory avaliable");
+	        series2.getData().add(new XYChart.Data("memory avaliable", memory));
+	    
+	        
+	        series3.setName("disk avaliable");
+	        series3.getData().add(new XYChart.Data("disk avaliable", disk));
+	       
+	        
+	     
+	        bc.getData().addAll(series1, series2, series3);
+	       
+	    	window2.setScene(scenez);
+			window2.show();		
+	}
+	
+public static void updateStatistics(int cpu, int memory, int disk ) {
+
+
+     window2.setTitle("statistcis");
+		
+		
+     xAxis.setLabel("pc perfromance keys");       
+     yAxis.setLabel("Value");
+
+      series1.getData().clear();
+     series1.setName("cpu avaliable");       
+     series1.getData().add(new XYChart.Data("cpu avaliable", cpu));
+  
+     series2.getData().clear();
+     series2.setName("memory avaliable");
+     series2.getData().add(new XYChart.Data("memory avaliable", memory));
+ 
+     
+     series3.getData().clear();
+
+     series3.setName("disk avaliable");
+     series3.getData().add(new XYChart.Data("disk avaliable", disk));
+    
 
 	}
 
@@ -560,6 +636,7 @@ public class Main extends Application {
 				button.setOnMouseClicked(new EventHandler() {
 					@Override
 					public void handle(Event e) {
+						updateStatistics((int)(memory.getAvailable()*Math.random()), (int)(memory.getAvailable()*Math.random()), disk.getAvailable());
 						ClassLoader CLDR = this.getClass().getClassLoader();
 						InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
 						AudioStream audioStream = null;
@@ -605,6 +682,7 @@ public class Main extends Application {
 				button.setOnMouseClicked(new EventHandler() {
 					@Override
 					public void handle(Event e) {
+						updateStatistics((int)(memory.getAvailable()*Math.random()), (int)(memory.getAvailable()*Math.random()), disk.getAvailable());
 						ClassLoader CLDR = this.getClass().getClassLoader();
 						InputStream soundName = CLDR.getResourceAsStream("mouse.wav");
 						AudioStream audioStream = null;
